@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ayi on 11/18/15.
@@ -86,7 +86,7 @@ public class Room implements Serializable {
     }
 
     public boolean isAvailableForNextHour(Date now) {
-        now.setTime(now.getTime()+(60*60*1000));
+        now.setTime(now.getTime() + (60 * 60 * 1000));
         for (Availability availability : getAvailability()) {
             if (availability.includes(now)) {
                 return true;

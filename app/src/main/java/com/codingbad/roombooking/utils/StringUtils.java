@@ -19,14 +19,14 @@ public class StringUtils {
         try {
             String line;
             try {
-                while((line = br.readLine()) != null) {
+                while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
             } catch (IOException var12) {
                 var12.printStackTrace();
             }
         } finally {
-            if(br != null) {
+            if (br != null) {
                 try {
                     br.close();
                 } catch (IOException var11) {

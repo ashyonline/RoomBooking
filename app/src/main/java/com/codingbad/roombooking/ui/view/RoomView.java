@@ -40,7 +40,7 @@ public class RoomView extends LinearLayout {
     }
 
     public void fill(Room room) {
-       // fill room UI
+        // fill room UI
         mRoomNameAndDescription.setText(getDescription(room));
     }
 

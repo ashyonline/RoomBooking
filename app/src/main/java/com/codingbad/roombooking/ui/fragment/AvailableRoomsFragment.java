@@ -37,29 +37,20 @@ import roboguice.inject.InjectView;
 public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragment.Callbacks> implements View.OnClickListener, RoomsAdapter.RecyclerViewListener, SearchView.OnQueryTextListener {
 
     private static final String DATE = "date";
-    @InjectView(R.id.fragment_available_rooms_current_date)
-    private TextView mCurrentDate;
-
-    @InjectView(R.id.fragment_available_rooms_recyclerview)
-    private RecyclerView mAvailableRooms;
-
-    @InjectView(R.id.fragment_available_rooms_loading_group)
-    private LinearLayout mViewGroup;
-
-    private Calendar mCalendar = Calendar.getInstance();
-    private RoomsAdapter mRoomsAdapter;
-
     @Inject
     OttoBus ottoBus;
+    @InjectView(R.id.fragment_available_rooms_current_date)
+    private TextView mCurrentDate;
+    @InjectView(R.id.fragment_available_rooms_recyclerview)
+    private RecyclerView mAvailableRooms;
+    @InjectView(R.id.fragment_available_rooms_loading_group)
+    private LinearLayout mViewGroup;
+    private Calendar mCalendar = Calendar.getInstance();
+    private RoomsAdapter mRoomsAdapter;
     @Inject
     private LoadingIndicatorView mLoadingIndicator;
 
     private Date mSelectedDate;
-    private SearchView mSearchView;
-    private List<Room> mRooms;
-    private CheckBox mNextHourFilter;
-    private String mLastQuery;
-
     DatePickerDialog.OnDateSetListener mDate = new DatePickerDialog.OnDateSetListener() {
 
         @Override
@@ -71,8 +62,13 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
             mSelectedDate = mCalendar.getTime();
             updateLabel();
             getAvailableRooms();
+            filterResults(mLastQuery, mNextHourFilter.isChecked());
         }
     };
+    private SearchView mSearchView;
+    private List<Room> mRooms;
+    private CheckBox mNextHourFilter;
+    private String mLastQuery = "";
 
     public AvailableRoomsFragment() {
     }
@@ -157,7 +153,7 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
 
     private void getAvailableRooms() {
         mLoadingIndicator.show();
-        new GetRoomsTask(getContext(), String.valueOf(mCalendar.getTimeInMillis()/1000)).execute();
+        new GetRoomsTask(getContext(), String.valueOf(mCalendar.getTimeInMillis() / 1000)).execute();
     }
 
     private void updateLabel() {
@@ -180,18 +176,7 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
                         mCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
             case R.id.action_checkbox:
-                if (mLastQuery == null || mLastQuery.isEmpty()) {
-                    List<Room> filteredRooms;
-                    if (mNextHourFilter.isChecked()) {
-                        filteredRooms = filterAvailableNextHour(mRooms);
-                    } else {
-                        filteredRooms = new ArrayList<>();
-                        filteredRooms.addAll(mRooms);
-                    }
-                    mRoomsAdapter.removeAll();
-                    mRoomsAdapter.addItemList(filteredRooms);
-                    mAvailableRooms.scrollToPosition(0);
-                }
+                filterResults(mLastQuery, mNextHourFilter.isChecked());
                 break;
         }
     }
@@ -226,15 +211,20 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
 
     @Override
     public boolean onQueryTextChange(String query) {
-        mLastQuery = query;
-        List<Room> filteredModelList = filter(mRooms, query);
-        boolean lookForAvailableForNextHour = mNextHourFilter.isChecked();
-        if (lookForAvailableForNextHour) {
-            filteredModelList = filterAvailableNextHour(filteredModelList);
-        }
-        mRoomsAdapter.animateTo(filteredModelList);
-        mAvailableRooms.scrollToPosition(0);
+        filterResults(query, mNextHourFilter.isChecked());
+
         return true;
+    }
+
+    private void filterResults(String query, boolean lookForAvailableForNextHour) {
+        mLastQuery = query;
+        List<Room> filteredRooms = filter(mRooms, query);
+        if (lookForAvailableForNextHour) {
+            filteredRooms = filterAvailableNextHour(filteredRooms);
+        }
+        mRoomsAdapter.removeAll();
+        mRoomsAdapter.addItemList(filteredRooms);
+        mAvailableRooms.scrollToPosition(0);
     }
 
     private List<Room> filterAvailableNextHour(List<Room> rooms) {

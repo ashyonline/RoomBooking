@@ -1,21 +1,16 @@
 package com.codingbad.roombooking.ui.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
 
+import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.RoomsErrorModel;
-import com.codingbad.roombooking.otto.OttoBus;
 import com.codingbad.roombooking.task.GetRoomsTask;
 import com.codingbad.roombooking.ui.fragment.AvailableRoomsFragment;
-import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.ui.fragment.ErrorFragment;
-import com.codingbad.roombooking.ui.view.LoadingIndicatorView;
-import com.google.inject.Inject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -82,7 +77,7 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
 
     @Override
     public void onRoomsError(GetRoomsTask.ErrorEvent event) {
-        RoomsErrorModel error =  event.getRoomsError();
+        RoomsErrorModel error = event.getRoomsError();
         showErrorFragment(error.getCode(), error.getDescription());
     }
 

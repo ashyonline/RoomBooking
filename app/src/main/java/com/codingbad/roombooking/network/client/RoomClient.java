@@ -2,12 +2,8 @@ package com.codingbad.roombooking.network.client;
 
 import com.codingbad.roombooking.BuildConfig;
 import com.codingbad.roombooking.model.Date;
-import com.codingbad.roombooking.model.Room;
 import com.squareup.okhttp.OkHttpClient;
 
-import java.util.List;
-
-import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.client.Response;

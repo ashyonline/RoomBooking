@@ -4,8 +4,6 @@ import com.codingbad.roombooking.model.Date;
 
 import retrofit.client.Response;
 import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 
