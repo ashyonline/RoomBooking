@@ -62,6 +62,12 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
         notifyItemRemoved(position);
     }
 
+    public Room removeItem(int position) {
+        final Room removed = this.mRooms.remove(position);
+        notifyItemRemoved(position);
+        return removed;
+    }
+
     public Room getItemAtPosition(int position) {
         return this.mRooms.get(position);
     }
@@ -69,6 +75,52 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return this.mRooms.size();
+    }
+
+    public void animateTo(List<Room> models) {
+        applyAndAnimateRemovals(models);
+        applyAndAnimateAdditions(models);
+        applyAndAnimateMovedItems(models);
+    }
+
+    private void applyAndAnimateRemovals(List<Room> newItems) {
+        for (int i = mRooms.size() - 1; i >= 0; i--) {
+            final Room room = mRooms.get(i);
+            if (!newItems.contains(room)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Room> newItems) {
+        for (int i = 0, count = newItems.size(); i < count; i++) {
+            final Room room = newItems.get(i);
+            if (!mRooms.contains(room)) {
+                addItem(i, room);
+            }
+        }
+    }
+
+    public void addItem(int position, Room room) {
+        this.mRooms.add(position, room);
+        notifyItemInserted(getItemCount());
+    }
+
+
+    private void applyAndAnimateMovedItems(List<Room> newItems) {
+        for (int toPosition = newItems.size() - 1; toPosition >= 0; toPosition--) {
+            final Room room = newItems.get(toPosition);
+            final int fromPosition = mRooms.indexOf(room);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        final Room moved = this.mRooms.remove(fromPosition);
+        this.mRooms.add(toPosition, moved);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     public interface RecyclerViewListener {

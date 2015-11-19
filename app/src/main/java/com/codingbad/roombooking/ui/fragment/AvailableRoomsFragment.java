@@ -2,9 +2,13 @@ package com.codingbad.roombooking.ui.fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -20,15 +24,15 @@ import com.codingbad.roombooking.ui.view.LoadingIndicatorView;
 import com.google.inject.Inject;
 import com.squareup.otto.Subscribe;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import roboguice.inject.InjectView;
 
-public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragment.Callbacks> implements View.OnClickListener, RoomsAdapter.RecyclerViewListener {
+public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragment.Callbacks> implements View.OnClickListener, RoomsAdapter.RecyclerViewListener, SearchView.OnQueryTextListener {
 
     private static final String DATE = "date";
     @InjectView(R.id.fragment_available_rooms_current_date)
@@ -49,6 +53,8 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
     private LoadingIndicatorView mLoadingIndicator;
 
     private Date mSelectedDate;
+    private SearchView mSearchView;
+    private List<Room> mRooms;
 
     DatePickerDialog.OnDateSetListener mDate = new DatePickerDialog.OnDateSetListener() {
 
@@ -92,6 +98,16 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.menu_main, menu);
+        // Retrieve the SearchView and plug it into SearchManager
+        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        mSearchView.setOnQueryTextListener(this);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mSelectedDate != null) {
@@ -125,7 +141,8 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
         mAvailableRooms.setLayoutManager(layoutManager);
 
         mRoomsAdapter = new RoomsAdapter(this);
-        mRoomsAdapter.addItemList(callbacks.getRooms());
+        mRooms = callbacks.getRooms();
+        mRoomsAdapter.addItemList(mRooms);
         mAvailableRooms.setAdapter(mRoomsAdapter);
     }
 
@@ -177,6 +194,31 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
     public void onRoomsError(GetRoomsTask.ErrorEvent error) {
         mLoadingIndicator.dismiss();
         callbacks.onRoomsError(error);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        final List<Room> filteredModelList = filter(mRooms, query);
+        mRoomsAdapter.animateTo(filteredModelList);
+        mAvailableRooms.scrollToPosition(0);
+        return true;
+    }
+
+    private List<Room> filter(List<Room> items, String query) {
+        query = query.toLowerCase();
+
+        final List<Room> filteredApplicationItems = new ArrayList<>();
+        for (Room room : items) {
+            if (room.getName().toLowerCase().contains(query)) {
+                filteredApplicationItems.add(room);
+            }
+        }
+        return filteredApplicationItems;
     }
 
     public interface Callbacks {

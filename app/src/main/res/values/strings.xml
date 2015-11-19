@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Room Booking</string>
-    <string name="action_settings">Settings</string>
     <string name="room_description">Room %1$s: The room is located in %2$s, equiped with %3$s.</string>
     <string name="no_available_equipment">no available equipment</string>
     <string name="and"> and </string>
     <string name="room_size"> \u2022 Room size: %1$s.</string>
     <string name="room_capacity"> \u2022 Room capacity: %1$s.</string>
+    <string name="search">Search</string>
 </resources>
