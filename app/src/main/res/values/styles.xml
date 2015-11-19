@@ -22,4 +22,19 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="description_style" parent="title_style">
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">@dimen/thin_margin</item>
+        <item name="android:layout_marginLeft">@dimen/simple_margin</item>
+        <item name="android:layout_marginRight">@dimen/simple_margin</item>
+        <item name="android:layout_marginBottom">@dimen/thin_margin</item>
+        <item name="android:layout_marginTop">@dimen/simple_margin</item>
+        <item name="android:background">@drawable/data_background</item>
+    </style>
+
+    <style name="error_style" parent="title_style">
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

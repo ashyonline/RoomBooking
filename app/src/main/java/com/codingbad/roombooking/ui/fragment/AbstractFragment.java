@@ -1,4 +1,4 @@
-package com.codingbad.roombooking;
+package com.codingbad.roombooking.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
