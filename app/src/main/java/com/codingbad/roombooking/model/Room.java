@@ -6,7 +6,9 @@ import com.codingbad.roombooking.R;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 /**
  * Created by ayi on 11/18/15.
@@ -47,8 +49,12 @@ public class Room implements Serializable {
         return mCapacity;
     }
 
-    public List<String> getAvailability() {
-        return mAvailability;
+    public List<Availability> getAvailability() {
+        List<Availability> availabilities = new ArrayList<>();
+        for (String availability : mAvailability) {
+            availabilities.add(new Availability(availability));
+        }
+        return availabilities;
     }
 
     public Object getImages() {
@@ -77,5 +83,15 @@ public class Room implements Serializable {
         equipments = equipments + and + mEquipment.get(mEquipment.size() - 3);
 
         return equipments;
+    }
+
+    public boolean isAvailableForNextHour(Date now) {
+        now.setTime(now.getTime()+(60*60*1000));
+        for (Availability availability : getAvailability()) {
+            if (availability.includes(now)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

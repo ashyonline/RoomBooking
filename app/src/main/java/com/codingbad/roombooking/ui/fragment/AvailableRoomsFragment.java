@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.codingbad.roombooking.ui.view.LoadingIndicatorView;
 import com.google.inject.Inject;
 import com.squareup.otto.Subscribe;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +57,8 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
     private Date mSelectedDate;
     private SearchView mSearchView;
     private List<Room> mRooms;
+    private CheckBox mNextHourFilter;
+    private String mLastQuery;
 
     DatePickerDialog.OnDateSetListener mDate = new DatePickerDialog.OnDateSetListener() {
 
@@ -87,13 +91,14 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
             mSelectedDate = (Date) savedInstanceState.getSerializable(DATE);
         }
 
+        setupLoadingIndicator();
+
         if (mSelectedDate == null) {
             mSelectedDate = mCalendar.getTime();
             getAvailableRooms();
         }
 
         setupDate();
-        setupLoadingIndicator();
         setUpRooms();
     }
 
@@ -104,7 +109,11 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
         inflater.inflate(R.menu.menu_main, menu);
         // Retrieve the SearchView and plug it into SearchManager
         mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        mSearchView.setQueryHint(getString(R.string.search_hint));
         mSearchView.setOnQueryTextListener(this);
+
+        mNextHourFilter = (CheckBox) MenuItemCompat.getActionView(menu.findItem(R.id.action_checkbox));
+        mNextHourFilter.setOnClickListener(this);
     }
 
     @Override
@@ -153,8 +162,8 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
 
     private void updateLabel() {
         String dateFormat = "MM/dd/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, getResources().getConfiguration().locale);
-        mCurrentDate.setText(sdf.format(mSelectedDate));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, getResources().getConfiguration().locale);
+        mCurrentDate.setText(simpleDateFormat.format(mSelectedDate));
     }
 
     private void setupDate() {
@@ -170,6 +179,20 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
                         .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
                         mCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
+            case R.id.action_checkbox:
+                if (mLastQuery == null || mLastQuery.isEmpty()) {
+                    List<Room> filteredRooms;
+                    if (mNextHourFilter.isChecked()) {
+                        filteredRooms = filterAvailableNextHour(mRooms);
+                    } else {
+                        filteredRooms = new ArrayList<>();
+                        filteredRooms.addAll(mRooms);
+                    }
+                    mRoomsAdapter.removeAll();
+                    mRoomsAdapter.addItemList(filteredRooms);
+                    mAvailableRooms.scrollToPosition(0);
+                }
+                break;
         }
     }
 
@@ -184,10 +207,10 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
     @Subscribe
     public void onRoomsSuccessfullyRetrieved(GetRoomsTask.Event event) {
         mRoomsAdapter.removeAll();
-        List<Room> rooms = event.getResult();
-        mRoomsAdapter.addItemList(rooms);
+        mRooms = event.getResult();
+        mRoomsAdapter.addItemList(mRooms);
         mLoadingIndicator.dismiss();
-        callbacks.onRoomsSuccessfullyRetrieved(rooms);
+        callbacks.onRoomsSuccessfullyRetrieved(mRooms);
     }
 
     @Subscribe
@@ -203,22 +226,50 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
 
     @Override
     public boolean onQueryTextChange(String query) {
-        final List<Room> filteredModelList = filter(mRooms, query);
+        mLastQuery = query;
+        List<Room> filteredModelList = filter(mRooms, query);
+        boolean lookForAvailableForNextHour = mNextHourFilter.isChecked();
+        if (lookForAvailableForNextHour) {
+            filteredModelList = filterAvailableNextHour(filteredModelList);
+        }
         mRoomsAdapter.animateTo(filteredModelList);
         mAvailableRooms.scrollToPosition(0);
         return true;
     }
 
+    private List<Room> filterAvailableNextHour(List<Room> rooms) {
+
+        final List<Room> filteredRooms = new ArrayList<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        Date now = mSelectedDate;
+        try {
+            now = simpleDateFormat.parse(simpleDateFormat.format(mSelectedDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date backup = (Date) now.clone();
+        for (Room room : rooms) {
+            now = (Date) backup.clone();
+            if (room.isAvailableForNextHour(now)) {
+                filteredRooms.add(room);
+            }
+        }
+        return filteredRooms;
+    }
+
     private List<Room> filter(List<Room> items, String query) {
         query = query.toLowerCase();
 
-        final List<Room> filteredApplicationItems = new ArrayList<>();
+        final List<Room> filteredRooms = new ArrayList<>();
         for (Room room : items) {
-            if (room.getName().toLowerCase().contains(query)) {
-                filteredApplicationItems.add(room);
+            String roomName = room.getName().toLowerCase();
+            String equipment = room.getEquipmentDescription(this.getActivity()).toLowerCase();
+            if (roomName.contains(query) || equipment.contains(query)) {
+                filteredRooms.add(room);
             }
         }
-        return filteredApplicationItems;
+        return filteredRooms;
     }
 
     public interface Callbacks {
