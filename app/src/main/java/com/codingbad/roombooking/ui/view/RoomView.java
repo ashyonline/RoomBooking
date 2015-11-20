@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Room;
+import com.codingbad.roombooking.model.Timeline;
 import com.codingbad.roombooking.utils.ViewUtils;
 
 import roboguice.inject.InjectView;
@@ -18,6 +19,9 @@ public class RoomView extends LinearLayout {
 
     @InjectView(R.id.view_room_name_and_description)
     private TextView mRoomNameAndDescription;
+
+    @InjectView(R.id.view_room_timeline)
+    private TimelineView mRoomTimeline;
 
     public RoomView(Context context) {
         super(context);
@@ -42,6 +46,7 @@ public class RoomView extends LinearLayout {
     public void fill(Room room) {
         // fill room UI
         mRoomNameAndDescription.setText(getDescription(room));
+        mRoomTimeline.fill(new Timeline("07:00", "19:00", room, 15*60*1000));
     }
 
     private String getDescription(Room room) {

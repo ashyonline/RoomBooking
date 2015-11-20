@@ -2,11 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    style="@style/description_style">
+
+    <com.codingbad.roombooking.ui.view.TimelineView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@android:color/holo_red_dark"
+        android:id="@+id/view_room_timeline"
+        android:layout_gravity="right" />
 
     <TextView
         android:id="@+id/view_room_name_and_description"
-        style="@style/description_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+
 </LinearLayout>
