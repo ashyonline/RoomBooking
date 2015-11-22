@@ -22,8 +22,24 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="description_style" parent="title_style">
-        <item name="android:textSize">20sp</item>
+    <style name="subtitle_style">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:layout_marginTop">@dimen/thin_margin</item>
+        <item name="android:layout_marginBottom">@dimen/thin_margin</item>
+        <item name="android:padding">@dimen/simple_margin</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="time_style">
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:layout_margin">@dimen/thin_margin</item>
+    </style>
+
+    <style name="description_container_style" parent="title_style">
         <item name="android:padding">@dimen/thin_margin</item>
         <item name="android:layout_marginLeft">@dimen/simple_margin</item>
         <item name="android:layout_marginRight">@dimen/simple_margin</item>
@@ -35,6 +51,14 @@
     <style name="error_style" parent="title_style">
         <item name="android:textColor">@android:color/holo_red_dark</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="description_style" parent="subtitle_style">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginLeft">@dimen/simple_margin</item>
+        <item name="android:layout_marginRight">@dimen/simple_margin</item>
+        <item name="android:layout_marginBottom">@dimen/thin_margin</item>
+        <item name="android:layout_marginTop">@dimen/thin_margin</item>
     </style>
 
 </resources>

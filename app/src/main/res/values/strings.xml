@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">Room Booking</string>
-    <string name="room_description">Room %1$s: The room is located in %2$s, equipped with %3$s.</string>
+    <string name="room_description">The room is located in %1$s, equipped with %2$s.</string>
     <string name="no_available_equipment">no available equipment</string>
-    <string name="and"> and </string>
-    <string name="room_size"> \u2022 Room size: %1$s.</string>
-    <string name="room_capacity"> \u2022 Room capacity: %1$s.</string>
+    <string name="and">\u0020and\u0020</string>
     <string name="search">Search</string>
     <string name="search_hint">Enter room name or equipment</string>
     <string name="check">Next Hour</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="description">Room Description</string>
+    <string name="hotel_availability">Booking Schedule</string>
+    <string name="room_long_description">\u2022 It is equipped with %1$s.\n\u2022 Room size: %2$s.\n\u2022 Room capacity: %3$s.\n</string>
+    <string name="room_location">The room is located in %1$s.</string>
+    <string name="room_name">Room %1$s</string>
 </resources>

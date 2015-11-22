@@ -80,6 +80,7 @@ public class GetRoomsTask extends RoboAsyncTask<Response> {
                 mOttoBus.post(new ErrorEvent(roomsError));
             } else {
                 super.onException(e);
+                mOttoBus.post(new RetrofitErrorEvent(e1.getMessage()));
                 e.printStackTrace();
             }
         } else {
@@ -111,6 +112,18 @@ public class GetRoomsTask extends RoboAsyncTask<Response> {
 
         public RoomsErrorModel getRoomsError() {
             return mRoomsError;
+        }
+    }
+
+    public class RetrofitErrorEvent {
+        private final String mMessage;
+
+        public RetrofitErrorEvent(String message) {
+            mMessage = message;
+        }
+
+        public String getMessage() {
+            return mMessage;
         }
     }
 }

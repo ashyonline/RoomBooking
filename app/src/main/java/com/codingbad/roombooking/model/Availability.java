@@ -27,6 +27,6 @@ public class Availability {
     }
 
     public boolean includes(Date date) {
-        return mFromTime.before(date) && mToTime.after(date);
+        return (mFromTime.before(date) || mFromTime.equals(date)) && mToTime.after(date);
     }
 }

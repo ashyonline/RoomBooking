@@ -26,10 +26,14 @@ public class DateUtils {
         return null;
     }
 
-    public static Date getDate(long milliSeconds) {
+    public static String formatMillisecondsIntoTime(long milliSeconds) {
         // Create a calendar object that will convert the date and time value in milliseconds to date.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
-        return getTime(simpleDateFormat.format(calendar.getTime()));
+        return simpleDateFormat.format(calendar.getTime());
+    }
+
+    public static Date getDate(long milliSeconds) {
+        return getTime(formatMillisecondsIntoTime(milliSeconds));
     }
 }

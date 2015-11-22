@@ -183,7 +183,7 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
 
     @Override
     public void onItemClickListener(View view, int position) {
-
+        callbacks.showDetails(mRoomsAdapter.getItemAtPosition(position));
     }
 
     /**
@@ -202,6 +202,12 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
     public void onRoomsError(GetRoomsTask.ErrorEvent error) {
         mLoadingIndicator.dismiss();
         callbacks.onRoomsError(error);
+    }
+
+    @Subscribe
+    public void onRetrofitError(GetRoomsTask.RetrofitErrorEvent error) {
+        mLoadingIndicator.dismiss();
+        callbacks.onRetrofitError(error);
     }
 
     @Override
@@ -253,7 +259,7 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
 
         final List<Room> filteredRooms = new ArrayList<>();
         for (Room room : items) {
-            String roomName = room.getName().toLowerCase();
+            String roomName = room.getName(this.getContext()).toLowerCase();
             String equipment = room.getEquipmentDescription(this.getActivity()).toLowerCase();
             if (roomName.contains(query) || equipment.contains(query)) {
                 filteredRooms.add(room);
@@ -268,5 +274,9 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
         void onRoomsSuccessfullyRetrieved(List<Room> rooms);
 
         void onRoomsError(GetRoomsTask.ErrorEvent error);
+
+        void onRetrofitError(GetRoomsTask.RetrofitErrorEvent error);
+
+        void showDetails(Room room);
     }
 }

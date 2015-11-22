@@ -17,10 +17,10 @@ import roboguice.inject.InjectView;
  */
 public class RoomView extends LinearLayout {
 
-    @InjectView(R.id.view_room_name_and_description)
+    @InjectView(R.id.fragment_room_details_description)
     private TextView mRoomNameAndDescription;
 
-    @InjectView(R.id.view_room_timeline)
+    @InjectView(R.id.fragment_room_details_timeline)
     private TimelineView mRoomTimeline;
 
     public RoomView(Context context) {
@@ -45,12 +45,9 @@ public class RoomView extends LinearLayout {
 
     public void fill(Room room) {
         // fill room UI
-        mRoomNameAndDescription.setText(getDescription(room));
-        mRoomTimeline.fill(new Timeline("07:00", "19:00", room, 15*60*1000));
+        mRoomNameAndDescription.setText(room.getNameAndDescription(this.getContext()));
+        mRoomTimeline.fill(new Timeline(room.getAvailabilityStart(), room.getAvailabilityEnd(), room, room.getAvailabilityStep()));
     }
 
-    private String getDescription(Room room) {
-        return this.getContext().getString(R.string.room_description, room.getName(), room.getLocation(), room.getEquipmentDescription(getContext()));
-    }
 }
 

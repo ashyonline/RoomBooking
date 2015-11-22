@@ -23,9 +23,9 @@ public class Timeline {
         mAvailability = room.getAvailability();
 
         int totalSteps = Math.round(mToTime.getTime() - mFromTime.getTime()) / step;
-        long beginning = mToTime.getTime();
+        long beginning = mFromTime.getTime();
         for (int i = 0; i < totalSteps; i++) {
-            mPeriods.add(new Period(mToTime, DateUtils.getDate(beginning + step), mAvailability));
+            mPeriods.add(new Period(DateUtils.getDate(beginning), DateUtils.getDate(beginning + step), mAvailability));
             beginning = beginning+step;
         }
     }

@@ -11,6 +11,7 @@ import com.codingbad.roombooking.model.RoomsErrorModel;
 import com.codingbad.roombooking.task.GetRoomsTask;
 import com.codingbad.roombooking.ui.fragment.AvailableRoomsFragment;
 import com.codingbad.roombooking.ui.fragment.ErrorFragment;
+import com.codingbad.roombooking.ui.fragment.RoomDetailsFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,14 +19,16 @@ import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
 
-public class MainActivity extends RoboActionBarActivity implements AvailableRoomsFragment.Callbacks {
+public class MainActivity extends RoboActionBarActivity implements AvailableRoomsFragment.Callbacks, RoomDetailsFragment.Callbacks {
 
     private static final String AVAILABLE_ROOMS_FRAGMENT_TAG = "available_rooms_fragment";
     private static final String ERROR_FRAGMENT_TAG = "error_fragment";
     private static final String LAST_RESPONSE = "last_response";
+    private static final String ROOM_DETAILS_FRAGMENT_TAG = "room_details_fragment";
 
     private FragmentManager mFragmentManager;
     private List<Room> mLastResponse = new ArrayList<>();
+    private Room mSelectedRoom;
 
 
     @Override
@@ -81,6 +84,22 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
         showErrorFragment(error.getCode(), error.getDescription());
     }
 
+    @Override
+    public void onRetrofitError(GetRoomsTask.RetrofitErrorEvent error) {
+        showErrorFragment(getString(R.string.unknown_error), error.getMessage());
+    }
+
+    @Override
+    public void showDetails(Room room) {
+        mSelectedRoom = room;
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction startFragment = mFragmentManager.beginTransaction();
+        RoomDetailsFragment roomDetailsFragment = new RoomDetailsFragment();
+        startFragment.addToBackStack(ROOM_DETAILS_FRAGMENT_TAG);
+        startFragment.replace(R.id.fragment, roomDetailsFragment, ROOM_DETAILS_FRAGMENT_TAG);
+        startFragment.commit();
+    }
+
     private void showErrorFragment(String code, String errorMessage) {
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction startFragment = mFragmentManager.beginTransaction();
@@ -92,5 +111,10 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
         startFragment.addToBackStack(ERROR_FRAGMENT_TAG);
         startFragment.replace(R.id.fragment, fyberErrorFragment, ERROR_FRAGMENT_TAG);
         startFragment.commit();
+    }
+
+    @Override
+    public Room getSelectedRoom() {
+        return mSelectedRoom;
     }
 }

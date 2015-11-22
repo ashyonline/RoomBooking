@@ -14,6 +14,8 @@ import java.util.List;
  * Created by ayi on 11/18/15.
  */
 public class Room implements Serializable {
+    public static final String AVAILABILITY_END = "19:00";
+    public static final String AVAILABILITY_START = "07:00";
     @SerializedName("name")
     private String mName;
     @SerializedName("location")
@@ -27,10 +29,10 @@ public class Room implements Serializable {
     @SerializedName("avail")
     private List<String> mAvailability;
     @SerializedName("images")
-    private Object mImages;
+    private List<String> mImages;
 
-    public String getName() {
-        return mName;
+    public String getName(Context context) {
+        return context.getString(R.string.room_name, mName);
     }
 
     public String getLocation() {
@@ -57,7 +59,7 @@ public class Room implements Serializable {
         return availabilities;
     }
 
-    public Object getImages() {
+    public List<String> getImages() {
         return mImages;
     }
 
@@ -93,5 +95,33 @@ public class Room implements Serializable {
             }
         }
         return false;
+    }
+
+    public String getNameAndDescription(Context context) {
+        return getName(context) + ": " + getDescription(context);
+    }
+
+    public String getDescription(Context context) {
+        return context.getString(R.string.room_description, mLocation, getEquipmentDescription(context));
+    }
+
+    public String getAvailabilityStart() {
+        return AVAILABILITY_START;
+    }
+
+    public String getAvailabilityEnd() {
+        return AVAILABILITY_END;
+    }
+
+    public int getAvailabilityStep() {
+        return 15*60*1000;
+    }
+
+    public String getLongDescription(Context context) {
+        return context.getString(R.string.room_long_description, getEquipmentDescription(context), mSize, mCapacity);
+    }
+
+    public String getRoomLocation(Context context) {
+        return context.getString(R.string.room_location, mLocation);
     }
 }

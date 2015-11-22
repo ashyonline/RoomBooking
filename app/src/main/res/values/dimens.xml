@@ -6,4 +6,5 @@
     <dimen name="simple_margin">10dp</dimen>
     <dimen name="thin_margin">5dp</dimen>
     <dimen name="checkbox_padding">8dp</dimen>
+    <dimen name="image_size">240dp</dimen>
 </resources>

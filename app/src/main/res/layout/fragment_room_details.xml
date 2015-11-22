@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/simple_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/simple_margin"
+            android:layout_marginRight="@dimen/simple_margin">
+
+            <LinearLayout
+                android:id="@+id/fragment_room_details_images"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/fragment_room_details_name"
+            style="@style/title_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/subtitle_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hotel_availability" />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/simple_margin"
+            android:layout_marginRight="@dimen/simple_margin">
+
+            <com.codingbad.roombooking.ui.view.TimelineView
+                android:id="@+id/fragment_room_details_timeline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </HorizontalScrollView>
+
+        <TextView
+            style="@style/subtitle_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/card_margin"
+                android:src="@drawable/ic_marker" />
+
+            <TextView
+                android:id="@+id/fragment_room_details_location"
+                style="@style/description_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/fragment_room_details_description"
+            style="@style/description_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>

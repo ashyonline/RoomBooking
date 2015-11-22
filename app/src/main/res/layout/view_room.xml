@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/description_container_style"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    style="@style/description_style">
+    android:orientation="vertical">
 
-    <com.codingbad.roombooking.ui.view.TimelineView
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@android:color/holo_red_dark"
-        android:id="@+id/view_room_timeline"
-        android:layout_gravity="right" />
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/simple_margin"
+        android:layout_marginRight="@dimen/simple_margin">
+
+        <com.codingbad.roombooking.ui.view.TimelineView
+            android:id="@+id/fragment_room_details_timeline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left" />
+    </HorizontalScrollView>
 
     <TextView
-        android:id="@+id/view_room_name_and_description"
+        android:id="@+id/fragment_room_details_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/simple_margin" />
 
 
 </LinearLayout>

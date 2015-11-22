@@ -36,4 +36,12 @@ public class Period {
     public boolean isAvailable() {
         return mIsAvailable;
     }
+
+    public boolean isStart() {
+        return mFromTime.getMinutes() == 0;
+    }
+
+    public String fromDate() {
+        return DateUtils.formatMillisecondsIntoTime(mFromTime.getTime());
+    }
 }
