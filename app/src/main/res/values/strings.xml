@@ -12,4 +12,13 @@
     <string name="room_long_description">\u2022 It is equipped with %1$s.\n\u2022 Room size: %2$s.\n\u2022 Room capacity: %3$s.\n</string>
     <string name="room_location">The room is located in %1$s.</string>
     <string name="room_name">Room %1$s</string>
+    <string name="book">Book ></string>
+    <string name="name">Name</string>
+    <string name="name_hint">Sara</string>
+    <string name="email">Email</string>
+    <string name="email_hint">example@mail.com</string>
+    <string name="phone_hint">4444 4444</string>
+    <string name="phone">Phone</string>
+    <string name="add"><![CDATA[Add >]]></string>
+    <string name="participants">Participants</string>
 </resources>

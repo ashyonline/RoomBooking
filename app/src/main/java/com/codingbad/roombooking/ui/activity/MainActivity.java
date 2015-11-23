@@ -10,6 +10,7 @@ import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.RoomsErrorModel;
 import com.codingbad.roombooking.task.GetRoomsTask;
 import com.codingbad.roombooking.ui.fragment.AvailableRoomsFragment;
+import com.codingbad.roombooking.ui.fragment.BookRoomFragment;
 import com.codingbad.roombooking.ui.fragment.ErrorFragment;
 import com.codingbad.roombooking.ui.fragment.RoomDetailsFragment;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
 
-public class MainActivity extends RoboActionBarActivity implements AvailableRoomsFragment.Callbacks, RoomDetailsFragment.Callbacks {
+public class MainActivity extends RoboActionBarActivity implements AvailableRoomsFragment.Callbacks, RoomDetailsFragment.Callbacks, BookRoomFragment.Callbacks {
 
     private static final String AVAILABLE_ROOMS_FRAGMENT_TAG = "available_rooms_fragment";
     private static final String ERROR_FRAGMENT_TAG = "error_fragment";
@@ -116,5 +117,15 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     @Override
     public Room getSelectedRoom() {
         return mSelectedRoom;
+    }
+
+    @Override
+    public void bookRoom() {
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction startFragment = mFragmentManager.beginTransaction();
+        BookRoomFragment bookRoomFragment = new BookRoomFragment();
+        startFragment.addToBackStack(ROOM_DETAILS_FRAGMENT_TAG);
+        startFragment.replace(R.id.fragment, bookRoomFragment, ROOM_DETAILS_FRAGMENT_TAG);
+        startFragment.commit();
     }
 }

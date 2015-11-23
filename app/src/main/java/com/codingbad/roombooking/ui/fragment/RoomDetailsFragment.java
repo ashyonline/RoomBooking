@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ import roboguice.inject.InjectView;
 /**
  * Created by ayi on 11/22/15.
  */
-public class RoomDetailsFragment extends AbstractFragment<RoomDetailsFragment.Callbacks> {
+public class RoomDetailsFragment extends AbstractFragment<RoomDetailsFragment.Callbacks> implements View.OnClickListener {
     private static final String ROOM = "room";
     private Room mSelectedRoom;
 
@@ -38,6 +39,9 @@ public class RoomDetailsFragment extends AbstractFragment<RoomDetailsFragment.Ca
 
     @InjectView(R.id.fragment_room_details_images)
     private LinearLayout mImages;
+
+    @InjectView(R.id.fragment_room_details_book_button)
+    private Button mBookButton;
 
     public RoomDetailsFragment() {
     }
@@ -61,6 +65,7 @@ public class RoomDetailsFragment extends AbstractFragment<RoomDetailsFragment.Ca
         }
 
         setupRoom();
+        mBookButton.setOnClickListener(this);
     }
 
     private void setupRoom() {
@@ -91,7 +96,14 @@ public class RoomDetailsFragment extends AbstractFragment<RoomDetailsFragment.Ca
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        callbacks.bookRoom();
+    }
+
     public interface Callbacks {
         Room getSelectedRoom();
+
+        void bookRoom();
     }
 }

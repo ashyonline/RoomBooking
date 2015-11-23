@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/card_margin"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fragment_room_booking_name"
+            style="@style/field_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name" />
+
+        <EditText
+            android:id="@+id/fragment_room_booking_name_field"
+            style="@style/input_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/fragment_room_booking_name"
+            android:layout_alignBottom="@+id/fragment_room_booking_name"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/fragment_room_booking_name"
+            android:hint="@string/name_hint"
+            android:inputType="textCapSentences" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fragment_room_booking_email"
+            style="@style/field_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/email" />
+
+        <EditText
+            android:id="@+id/fragment_room_booking_email_field"
+            style="@style/input_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/fragment_room_booking_email"
+            android:layout_alignBottom="@+id/fragment_room_booking_email"
+            android:layout_alignParentEnd="true"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            android:layout_toEndOf="@+id/fragment_room_booking_email" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fragment_room_booking_phone"
+            style="@style/field_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone" />
+
+        <EditText
+            android:id="@+id/fragment_room_booking_phone_field"
+            style="@style/input_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/fragment_room_booking_phone"
+            android:layout_alignBottom="@+id/fragment_room_booking_phone"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/fragment_room_booking_phone"
+            android:hint="@string/phone_hint"
+            android:inputType="phone" />
+    </RelativeLayout>
+
+    <Button
+        style="@style/button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add" />
+
+    <TextView
+        style="@style/subtitle_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/participants" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/fragment_room_booking_participants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+    </ScrollView>
+</LinearLayout>
