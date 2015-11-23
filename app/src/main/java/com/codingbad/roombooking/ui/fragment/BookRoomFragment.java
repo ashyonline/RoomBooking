@@ -55,6 +55,7 @@ public class BookRoomFragment  extends AbstractFragment<BookRoomFragment.Callbac
 
     private ParticipantAdapter mAdapter;
     private BookingModel mBookingModel;
+    private Timeline mTimeline;
 
     public BookRoomFragment() {
     }
@@ -90,7 +91,8 @@ public class BookRoomFragment  extends AbstractFragment<BookRoomFragment.Callbac
     }
 
     private void setupRoom() {
-        mRoomTimeline.fill(new Timeline(mSelectedRoom.getAvailabilityStart(), mSelectedRoom.getAvailabilityEnd(), mSelectedRoom, mSelectedRoom.getAvailabilityStep()), true);
+        mTimeline = new Timeline(mSelectedRoom.getAvailabilityStart(), mSelectedRoom.getAvailabilityEnd(), mSelectedRoom, mSelectedRoom.getAvailabilityStep());
+        mRoomTimeline.fill(mTimeline, true);
         mRoomTimeline.setOnClickListener(this);
     }
 
@@ -112,7 +114,8 @@ public class BookRoomFragment  extends AbstractFragment<BookRoomFragment.Callbac
     }
 
     private void bookRoom() {
-
+        // book room!
+        mTimeline.getPeriods();
     }
 
     @Override

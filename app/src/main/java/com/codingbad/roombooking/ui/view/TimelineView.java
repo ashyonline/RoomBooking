@@ -62,8 +62,10 @@ public class TimelineView extends LinearLayout implements View.OnClickListener {
             PeriodView periodView = (PeriodView) v;
             if (periodView.getPeriod().isAvailable() && !periodView.isMarkedBooked()) {
                 periodView.showBook();
+                periodView.getPeriod().markToBook(true);
             } else if (periodView.isMarkedBooked()) {
                 periodView.showAvailable();
+                periodView.getPeriod().markToBook(false);
             }
         }
     }

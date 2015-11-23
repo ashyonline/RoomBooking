@@ -15,6 +15,7 @@ public class Period {
     private Date mToTime;
     private List<Availability> mAvailabilities;
     private boolean mIsAvailable;
+    private boolean mToBook;
 
     public Period(Date from, Date to, List<Availability> availability) {
         mFromTime = from;
@@ -45,7 +46,7 @@ public class Period {
         return DateUtils.formatMillisecondsIntoTime(mFromTime.getTime());
     }
 
-    public boolean isMarkedBooked() {
-        return false;
+    public void markToBook(boolean toBook) {
+        mToBook = toBook;
     }
 }
