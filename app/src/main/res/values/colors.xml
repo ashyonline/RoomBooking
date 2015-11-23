@@ -11,4 +11,5 @@
     <color name="divider">#B6B6B6</color>
     <color name="available">#009547</color>
     <color name="not_available">#E31E2F</color>
+    <color name="booking">#FFE900</color>
 </resources>

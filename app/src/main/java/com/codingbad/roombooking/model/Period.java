@@ -44,4 +44,8 @@ public class Period {
     public String fromDate() {
         return DateUtils.formatMillisecondsIntoTime(mFromTime.getTime());
     }
+
+    public boolean isMarkedBooked() {
+        return false;
+    }
 }

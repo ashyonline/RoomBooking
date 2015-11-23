@@ -87,15 +87,19 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
             mSelectedDate = (Date) savedInstanceState.getSerializable(DATE);
         }
 
-        setupLoadingIndicator();
-
         if (mSelectedDate == null) {
             mSelectedDate = mCalendar.getTime();
-            getAvailableRooms();
         }
 
         setupDate();
         setUpRooms();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupLoadingIndicator();
+        getAvailableRooms();
     }
 
     @Override

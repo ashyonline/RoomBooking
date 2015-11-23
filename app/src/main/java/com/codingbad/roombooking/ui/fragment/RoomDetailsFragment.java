@@ -34,9 +34,6 @@ public class RoomDetailsFragment extends AbstractFragment<RoomDetailsFragment.Ca
     @InjectView(R.id.fragment_room_details_location)
     private TextView mRoomLocation;
 
-    @InjectView(R.id.fragment_room_details_timeline)
-    private TimelineView mRoomTimeline;
-
     @InjectView(R.id.fragment_room_details_images)
     private LinearLayout mImages;
 
@@ -72,7 +69,7 @@ public class RoomDetailsFragment extends AbstractFragment<RoomDetailsFragment.Ca
         mRoomName.setText(mSelectedRoom.getName(this.getContext()));
         mRoomDescription.setText(mSelectedRoom.getLongDescription(this.getContext()));
         mRoomLocation.setText(mSelectedRoom.getRoomLocation(this.getContext()));
-        mRoomTimeline.fill(new Timeline(mSelectedRoom.getAvailabilityStart(), mSelectedRoom.getAvailabilityEnd(), mSelectedRoom, mSelectedRoom.getAvailabilityStep()));
+
         int size = getResources().getDimensionPixelSize(R.dimen.image_size);
 
         for (String url : mSelectedRoom.getImages()) {

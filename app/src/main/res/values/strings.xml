@@ -17,8 +17,10 @@
     <string name="name_hint">Sara</string>
     <string name="email">Email</string>
     <string name="email_hint">example@mail.com</string>
-    <string name="phone_hint">4444 4444</string>
+    <string name="phone_hint">+49-157-44444444</string>
     <string name="phone">Phone</string>
     <string name="add"><![CDATA[Add >]]></string>
     <string name="participants">Participants</string>
+    <string name="field_should_not_be_empty">This field is mandatory</string>
+    <string name="invalid_email">Please, enter a valid email address</string>
 </resources>

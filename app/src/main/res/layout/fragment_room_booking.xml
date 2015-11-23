@@ -5,9 +5,27 @@
     android:layout_margin="@dimen/card_margin"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/simple_margin"
+        android:layout_marginRight="@dimen/simple_margin"
+        android:layout_marginBottom="@dimen/simple_margin">
+
+        <com.codingbad.roombooking.ui.view.TimelineView
+            android:id="@+id/fragment_room_booking_timeline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </HorizontalScrollView>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/fragment_room_booking_name"
@@ -16,47 +34,12 @@
             android:layout_height="wrap_content"
             android:text="@string/name" />
 
-        <EditText
-            android:id="@+id/fragment_room_booking_name_field"
-            style="@style/input_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/fragment_room_booking_name"
-            android:layout_alignBottom="@+id/fragment_room_booking_name"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/fragment_room_booking_name"
-            android:hint="@string/name_hint"
-            android:inputType="textCapSentences" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <TextView
             android:id="@+id/fragment_room_booking_email"
             style="@style/field_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="@string/email" />
-
-        <EditText
-            android:id="@+id/fragment_room_booking_email_field"
-            style="@style/input_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/fragment_room_booking_email"
-            android:layout_alignBottom="@+id/fragment_room_booking_email"
-            android:layout_alignParentEnd="true"
-            android:hint="@string/email_hint"
-            android:inputType="textEmailAddress"
-            android:layout_toEndOf="@+id/fragment_room_booking_email" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/fragment_room_booking_phone"
@@ -64,21 +47,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/phone" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/fragment_room_booking_email_field"
+            style="@style/input_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            android:layout_toEndOf="@+id/fragment_room_booking_email" />
+        <EditText
+            android:id="@+id/fragment_room_booking_name_field"
+            style="@style/input_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/name_hint"
+            android:inputType="textCapSentences" />
         <EditText
             android:id="@+id/fragment_room_booking_phone_field"
             style="@style/input_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/fragment_room_booking_phone"
-            android:layout_alignBottom="@+id/fragment_room_booking_phone"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/fragment_room_booking_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:hint="@string/phone_hint"
             android:inputType="phone" />
-    </RelativeLayout>
-
+    </LinearLayout>
+    </LinearLayout>
     <Button
+        android:id="@+id/fragment_room_booking_add"
         style="@style/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,11 +93,18 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ListView
-            android:id="@+id/fragment_room_booking_participants"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <ListView
+                android:id="@+id/fragment_room_booking_participants"
+                android:layout_height="fill_parent"
+                android:layout_width="match_parent"></ListView>
+            </LinearLayout>
     </ScrollView>
+
+
 </LinearLayout>

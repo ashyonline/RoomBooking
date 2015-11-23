@@ -25,6 +25,10 @@ public class PeriodView extends LinearLayout {
     private View mMainView;
     @InjectView(R.id.view_period_time)
     private TextView mTime;
+    private Period mPeriod;
+    private int mBookingColor;
+    private int mAvailableColor;
+    private int mNotAvailableColor;
 
     public PeriodView(Context context) {
         super(context);
@@ -42,21 +46,47 @@ public class PeriodView extends LinearLayout {
     }
 
     private void init() {
+        mBookingColor = ContextCompat.getColor(getContext(), R.color.booking);
+        mAvailableColor = ContextCompat.getColor(getContext(), R.color.available);
+        mNotAvailableColor = ContextCompat.getColor(getContext(), R.color.not_available);
         inflate(getContext(), R.layout.view_period, this);
         ViewUtils.reallyInjectViews(this);
     }
 
     public void fill(Period period) {
-        mColor = period.isAvailable() ? ContextCompat.getColor(getContext(), R.color.available) : ContextCompat.getColor(getContext(), R.color.not_available);
+        mPeriod = period;
+        mColor = period.isAvailable() ? mAvailableColor : mNotAvailableColor;
 
+        paint();
+
+        if (period.isStart()) {
+            mTime.setText(period.fromDate());
+        }
+    }
+
+    private void paint() {
         GradientDrawable backgroundDrawable = new GradientDrawable();
         backgroundDrawable.setColor(mColor);
         backgroundDrawable.setCornerRadius(5);
         backgroundDrawable.setStroke(1, 0x00000000);
         mMainView.setBackgroundDrawable(backgroundDrawable);
+    }
 
-        if (period.isStart()) {
-            mTime.setText(period.fromDate());
-        }
+    public void showBook() {
+        mColor = mBookingColor;
+        paint();
+    }
+
+    public Period getPeriod() {
+        return mPeriod;
+    }
+
+    public void showAvailable() {
+        mColor = mAvailableColor;
+        paint();
+    }
+
+    public boolean isMarkedBooked() {
+        return mColor == mBookingColor;
     }
 }
