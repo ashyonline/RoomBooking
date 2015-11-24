@@ -16,7 +16,7 @@ import java.util.List;
 public class Room implements Serializable {
     public static final String AVAILABILITY_END = "19:00";
     public static final String AVAILABILITY_START = "07:00";
-    private final Timeline mTimeline;
+    private Timeline mTimeline;
     @SerializedName("name")
     private String mName;
     @SerializedName("location")
@@ -32,9 +32,6 @@ public class Room implements Serializable {
     @SerializedName("images")
     private List<String> mImages;
 
-    public Room() {
-        mTimeline = new Timeline(getAvailabilityStart(), getAvailabilityEnd(), this, getAvailabilityStep());
-    }
 
     public String getName(Context context) {
         return context.getString(R.string.room_name, mName);
@@ -131,6 +128,13 @@ public class Room implements Serializable {
     }
 
     public Timeline getTimeline() {
+        if (mTimeline == null) {
+            mTimeline = new Timeline(getAvailabilityStart(), getAvailabilityEnd(), this, getAvailabilityStep());
+        }
         return mTimeline;
+    }
+
+    public String getRawName() {
+        return mName;
     }
 }

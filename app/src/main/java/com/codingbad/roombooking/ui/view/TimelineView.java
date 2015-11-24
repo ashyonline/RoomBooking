@@ -18,11 +18,10 @@ import roboguice.inject.InjectView;
 /**
  * Created by ayelen on 11/20/15.
  */
-public class TimelineView extends LinearLayout implements View.OnClickListener {
+public class TimelineView extends LinearLayout {
     @InjectView(R.id.view_timeline_root)
     private LinearLayout mRootView;
     private Timeline mTimeline;
-    private boolean mIsBooking;
 
     public TimelineView(Context context) {
         super(context);
@@ -44,29 +43,13 @@ public class TimelineView extends LinearLayout implements View.OnClickListener {
         ViewUtils.reallyInjectViews(this);
     }
 
-    public void fill(Timeline timeline, boolean isBooking) {
-        mIsBooking = isBooking;
+    public void fill(Timeline timeline) {
         mTimeline = timeline;
         // fill room UI
         for (Period period : timeline.getPeriods()) {
             PeriodView periodView = new PeriodView(getContext());
             periodView.fill(period);
-            periodView.setOnClickListener(this);
             mRootView.addView(periodView);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (mIsBooking) {
-            PeriodView periodView = (PeriodView) v;
-            if (periodView.getPeriod().isAvailable() && !periodView.isMarkedBooked()) {
-                periodView.showBook();
-                periodView.getPeriod().markToBook(true);
-            } else if (periodView.isMarkedBooked()) {
-                periodView.showAvailable();
-                periodView.getPeriod().markToBook(false);
-            }
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.codingbad.roombooking.network.client;
 
 import com.codingbad.roombooking.BuildConfig;
-import com.codingbad.roombooking.model.Date;
+import com.codingbad.roombooking.model.Booking;
+import com.codingbad.roombooking.model.BookingModel;
+import com.codingbad.roombooking.model.DateModel;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RestAdapter;
@@ -29,7 +31,11 @@ public class RoomClient {
         }
     }
 
+    public Response sendPass(Booking bookingModel) {
+        return mRoomClient.sendPass(new BookingModel(bookingModel));
+    }
+
     public Response getRooms(String date) {
-        return mRoomClient.getRooms(new Date(date));
+        return mRoomClient.getRooms(new DateModel(date));
     }
 }

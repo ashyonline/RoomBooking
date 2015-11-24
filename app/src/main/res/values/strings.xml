@@ -19,9 +19,12 @@
     <string name="email_hint">example@mail.com</string>
     <string name="phone_hint">+49-157-44444444</string>
     <string name="phone">Phone</string>
-    <string name="add"><![CDATA[Add >]]></string>
+    <string name="add">Add ></string>
     <string name="participants">Participants</string>
     <string name="field_should_not_be_empty">This field is mandatory</string>
     <string name="invalid_email">Please, enter a valid email address</string>
-    <string name="next">next></string>
+    <string name="next">Next ></string>
+    <string name="booking_room_from_date">Please, choose the time you want to book %1$s</string>
+    <string name="booking_room_to_date">Please, choose until what time you want to book %1$s</string>
+    <string name="should_add_one_participant">Please, add at least one participant</string>
 </resources>

@@ -2,8 +2,10 @@ package com.codingbad.roombooking.task;
 
 import android.content.Context;
 
+import com.codingbad.roombooking.model.Booking;
 import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.RoomsErrorModel;
+import com.codingbad.roombooking.model.SendPassResult;
 import com.codingbad.roombooking.network.client.RoomClient;
 import com.codingbad.roombooking.otto.OttoBus;
 import com.codingbad.roombooking.utils.StringUtils;
@@ -21,24 +23,24 @@ import retrofit.converter.GsonConverter;
 import roboguice.util.RoboAsyncTask;
 
 /**
- * Created by ayi on 11/18/15.
+ * Created by ayelen on 11/24/15.
  */
-public class GetRoomsTask extends RoboAsyncTask<Response> {
+public class SendPassTask extends RoboAsyncTask<Response> {
+    private final Booking mBooking;
     @Inject
     protected OttoBus mOttoBus;
     @Inject
     private RoomClient mRoomClient;
-    private String mDate;
 
-    public GetRoomsTask(Context context, String date) {
+    public SendPassTask(Context context, Booking booking) {
         super(context);
-        mDate = date;
+        mBooking = booking;
     }
 
     @Override
     public Response call() throws Exception {
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-        Response response = mRoomClient.getRooms(mDate);
+        Response response = mRoomClient.sendPass(mBooking);
         return response;
     }
 
@@ -55,8 +57,8 @@ public class GetRoomsTask extends RoboAsyncTask<Response> {
         try {
             Gson gson = new Gson();
             String body = StringUtils.convertToString(result.getBody().in());
-            Room[] rooms = gson.fromJson(body, Room[].class);
-            return new Event(Arrays.asList(rooms));
+            SendPassResult sendPassResult = gson.fromJson(body, SendPassResult.class);
+            return new Event(sendPassResult);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -86,13 +88,13 @@ public class GetRoomsTask extends RoboAsyncTask<Response> {
          * Otto Events
     */
     public class Event {
-        private List<Room> mResult;
+        private SendPassResult mResult;
 
-        public Event(List<Room> result) {
+        public Event(SendPassResult result) {
             this.mResult = result;
         }
 
-        public List<Room> getResult() {
+        public SendPassResult getResult() {
             return mResult;
         }
     }

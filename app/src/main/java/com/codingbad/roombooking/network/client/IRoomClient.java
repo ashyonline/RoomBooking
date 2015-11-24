@@ -1,6 +1,8 @@
 package com.codingbad.roombooking.network.client;
 
-import com.codingbad.roombooking.model.Date;
+import com.codingbad.roombooking.model.Booking;
+import com.codingbad.roombooking.model.BookingModel;
+import com.codingbad.roombooking.model.DateModel;
 
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -13,5 +15,10 @@ import retrofit.http.POST;
 public interface IRoomClient {
     @Headers("Content-Type: application/json")
     @POST("/getrooms")
-    Response getRooms(@Body Date date);
+    Response getRooms(@Body DateModel date);
+
+    @Headers("Content-Type: application/json")
+    @POST("/sendpass")
+    Response sendPass(@Body BookingModel bookingModel);
+
 }

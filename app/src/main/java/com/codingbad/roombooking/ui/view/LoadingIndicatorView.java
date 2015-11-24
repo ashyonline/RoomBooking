@@ -75,6 +75,7 @@ public class LoadingIndicatorView extends FrameLayout {
             viewGroup.addView(this, layoutParams);
 
         } else if (viewGroup instanceof LinearLayout) {
+            viewGroup.removeView(this);
             viewGroup.addView(this, 0, layoutParams);
         }
 

@@ -17,4 +17,12 @@ public class Participant {
     public String getName() {
         return mName;
     }
+
+    public String getEmail() {
+        return mEmail;
+    }
+
+    public String getPhoneNumber() {
+        return mPhone;
+    }
 }

@@ -36,4 +36,18 @@ public class DateUtils {
     public static Date getDate(long milliSeconds) {
         return getTime(formatMillisecondsIntoTime(milliSeconds));
     }
+
+    public static Date getDate(Date date, String hour, String minutes) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR, Integer.valueOf(hour));
+        calendar.set(Calendar.MINUTE, Integer.valueOf(minutes));
+        return calendar.getTime();
+    }
+
+    public static int get(int field, Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(field);
+    }
 }

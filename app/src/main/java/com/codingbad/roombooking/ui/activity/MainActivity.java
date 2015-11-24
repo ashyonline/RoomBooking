@@ -6,13 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.codingbad.roombooking.R;
+import com.codingbad.roombooking.model.Booking;
 import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.RoomsErrorModel;
-import com.codingbad.roombooking.model.Timeline;
 import com.codingbad.roombooking.task.GetRoomsTask;
 import com.codingbad.roombooking.ui.fragment.AvailableRoomsFragment;
-import com.codingbad.roombooking.ui.fragment.BookRoomFragment;
-import com.codingbad.roombooking.ui.fragment.BookRoomFromFragment;
+import com.codingbad.roombooking.ui.fragment.BookRoomAddParticipantsFragment;
+import com.codingbad.roombooking.ui.fragment.BookRoomDateFragment;
 import com.codingbad.roombooking.ui.fragment.ErrorFragment;
 import com.codingbad.roombooking.ui.fragment.RoomDetailsFragment;
 
@@ -23,7 +23,7 @@ import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
 
-public class MainActivity extends RoboActionBarActivity implements AvailableRoomsFragment.Callbacks, RoomDetailsFragment.Callbacks, BookRoomFragment.Callbacks {
+public class MainActivity extends RoboActionBarActivity implements AvailableRoomsFragment.Callbacks, RoomDetailsFragment.Callbacks, BookRoomAddParticipantsFragment.Callbacks, BookRoomDateFragment.Callbacks {
 
     private static final String AVAILABLE_ROOMS_FRAGMENT_TAG = "available_rooms_fragment";
     private static final String ERROR_FRAGMENT_TAG = "error_fragment";
@@ -35,6 +35,7 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     private List<Room> mLastResponse = new ArrayList<>();
     private Room mSelectedRoom;
     private Date mSelectedDate;
+    private Booking mBookingModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,17 +126,40 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     }
 
     @Override
-    public Timeline getTimeline() {
-        return mSelectedRoom.getTimeline();
+    public Booking getBookingModel() {
+        return mBookingModel;
+    }
+
+    @Override
+    public void bookRoom() {
+        // send request!
+    }
+
+    @Override
+    public void onNextPressed(Date date) {
+        if (!mBookingModel.hasStartDate()) {
+            mBookingModel.setStart(date);
+            showBookRoomDate(false);
+        } else {
+            mBookingModel.setEnd(date);
+            addParticipants();
+        }
     }
 
     @Override
     public void startBookingRoom() {
+        showBookRoomDate(true);
+        mBookingModel = new Booking(mSelectedRoom);
+    }
+
+    private void showBookRoomDate(boolean start) {
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction startFragment = mFragmentManager.beginTransaction();
-        BookRoomFromFragment bookRoomFromFragment = new BookRoomFromFragment();
+        BookRoomDateFragment bookRoomFromFragment = new BookRoomDateFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(BookRoomFromFragment.DATE, mSelectedDate);
+        bundle.putSerializable(BookRoomDateFragment.DATE, mSelectedDate);
+        bundle.putBoolean(BookRoomDateFragment.START, start);
+        bookRoomFromFragment.setArguments(bundle);
         startFragment.addToBackStack(ROOM_BOOKING_FROM_FRAGMENT_TAG);
         startFragment.replace(R.id.fragment, bookRoomFromFragment, ROOM_BOOKING_FROM_FRAGMENT_TAG);
         startFragment.commit();
@@ -144,7 +168,7 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     public void addParticipants() {
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction startFragment = mFragmentManager.beginTransaction();
-        BookRoomFragment bookRoomFragment = new BookRoomFragment();
+        BookRoomAddParticipantsFragment bookRoomFragment = new BookRoomAddParticipantsFragment();
         startFragment.addToBackStack(ROOM_DETAILS_FRAGMENT_TAG);
         startFragment.replace(R.id.fragment, bookRoomFragment, ROOM_DETAILS_FRAGMENT_TAG);
         startFragment.commit();

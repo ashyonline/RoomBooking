@@ -46,7 +46,7 @@ public class RoomView extends LinearLayout {
     public void fill(Room room) {
         // fill room UI
         mRoomNameAndDescription.setText(room.getNameAndDescription(this.getContext()));
-        mRoomTimeline.fill(new Timeline(room.getAvailabilityStart(), room.getAvailabilityEnd(), room, room.getAvailabilityStep()), false);
+        mRoomTimeline.fill(new Timeline(room.getAvailabilityStart(), room.getAvailabilityEnd(), room, room.getAvailabilityStep()));
     }
 
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/fragment_room_booking_date_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/title_style"/>
+    <TextView
+        android:id="@+id/fragment_room_booking_date_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/subtitle_style"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/card_margin"
+        android:layout_below="@+id/fragment_room_booking_date_title"
+        android:layout_alignParentStart="true">
+        <Spinner
+            android:id="@+id/fragment_room_booking_date_hour"
+            style="@style/spinner_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Spinner
+            android:id="@+id/fragment_room_booking_date_minute"
+            style="@style/spinner_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/fragment_room_booking_date_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/button_style"
+        android:text="@string/next"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+</LinearLayout>

@@ -5,19 +5,6 @@
     android:layout_margin="@dimen/card_margin"
     android:orientation="vertical">
 
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/simple_margin"
-        android:layout_marginRight="@dimen/simple_margin"
-        android:layout_marginBottom="@dimen/simple_margin">
-
-        <com.codingbad.roombooking.ui.view.TimelineView
-            android:id="@+id/fragment_room_booking_timeline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </HorizontalScrollView>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,21 +15,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/fragment_room_booking_name"
+            android:id="@+id/fragment_room_booking_add_participants_name"
             style="@style/field_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name" />
 
         <TextView
-            android:id="@+id/fragment_room_booking_email"
+            android:id="@+id/fragment_room_booking_add_participants_email"
             style="@style/field_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/email" />
 
         <TextView
-            android:id="@+id/fragment_room_booking_phone"
+            android:id="@+id/fragment_room_booking_add_participants_phone"
             style="@style/field_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,23 +41,26 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <EditText
-            android:id="@+id/fragment_room_booking_email_field"
-            style="@style/input_style"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/email_hint"
-            android:inputType="textEmailAddress"
-            android:layout_toEndOf="@+id/fragment_room_booking_email" />
-        <EditText
-            android:id="@+id/fragment_room_booking_name_field"
+            android:id="@+id/fragment_room_booking_add_participants_name_field"
             style="@style/input_style"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/name_hint"
             android:inputType="textCapSentences" />
+
         <EditText
-            android:id="@+id/fragment_room_booking_phone_field"
+            android:id="@+id/fragment_room_booking_add_participants_email_field"
+            style="@style/input_style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            android:layout_toEndOf="@+id/fragment_room_booking_add_participants_email" />
+
+        <EditText
+            android:id="@+id/fragment_room_booking_add_participants_phone_field"
             style="@style/input_style"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -79,7 +69,7 @@
     </LinearLayout>
     </LinearLayout>
     <Button
-        android:id="@+id/fragment_room_booking_add"
+        android:id="@+id/fragment_room_booking_add_participants_add"
         style="@style/button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,7 +90,7 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
             <ListView
-                android:id="@+id/fragment_room_booking_participants"
+                android:id="@+id/fragment_room_booking_add_participants_participants"
                 android:layout_height="fill_parent"
                 android:layout_width="match_parent"></ListView>
             </LinearLayout>

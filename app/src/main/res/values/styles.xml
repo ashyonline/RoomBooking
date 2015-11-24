@@ -63,6 +63,7 @@
 
     <style name="button_style" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:layout_gravity">end</item>
+        <item name="android:padding">@dimen/simple_margin</item>
     </style>
 
     <style name="input_style" parent="field_style">
@@ -78,10 +79,14 @@
 
     <style name="participant_style">
         <item name="android:textSize">16sp</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:padding">@dimen/simple_margin</item>
         <item name="android:layout_margin">@dimen/thin_margin</item>
         <item name="android:typeface">monospace</item>
         <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="spinner_style" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_margin">@dimen/simple_margin</item>
     </style>
 
 </resources>
