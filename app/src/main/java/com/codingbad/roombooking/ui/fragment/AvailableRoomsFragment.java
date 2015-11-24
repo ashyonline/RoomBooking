@@ -187,7 +187,7 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
 
     @Override
     public void onItemClickListener(View view, int position) {
-        callbacks.showDetails(mRoomsAdapter.getItemAtPosition(position));
+        callbacks.showDetails(mRoomsAdapter.getItemAtPosition(position), mSelectedDate);
     }
 
     /**
@@ -281,6 +281,6 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
 
         void onRetrofitError(GetRoomsTask.RetrofitErrorEvent error);
 
-        void showDetails(Room room);
+        void showDetails(Room room, Date selectedDate);
     }
 }

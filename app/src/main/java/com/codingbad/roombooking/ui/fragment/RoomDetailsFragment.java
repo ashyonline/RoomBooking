@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.codingbad.roombooking.BuildConfig;
 import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Room;
-import com.codingbad.roombooking.model.Timeline;
-import com.codingbad.roombooking.ui.view.TimelineView;
 import com.squareup.picasso.Picasso;
 
 import roboguice.inject.InjectView;
@@ -95,12 +93,12 @@ public class RoomDetailsFragment extends AbstractFragment<RoomDetailsFragment.Ca
 
     @Override
     public void onClick(View v) {
-        callbacks.bookRoom();
+        callbacks.startBookingRoom();
     }
 
     public interface Callbacks {
         Room getSelectedRoom();
 
-        void bookRoom();
+        void startBookingRoom();
     }
 }

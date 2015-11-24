@@ -23,4 +23,5 @@
     <string name="participants">Participants</string>
     <string name="field_should_not_be_empty">This field is mandatory</string>
     <string name="invalid_email">Please, enter a valid email address</string>
+    <string name="next">next></string>
 </resources>

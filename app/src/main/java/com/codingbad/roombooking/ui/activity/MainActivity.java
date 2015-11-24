@@ -8,14 +8,17 @@ import android.support.v4.app.FragmentTransaction;
 import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.RoomsErrorModel;
+import com.codingbad.roombooking.model.Timeline;
 import com.codingbad.roombooking.task.GetRoomsTask;
 import com.codingbad.roombooking.ui.fragment.AvailableRoomsFragment;
 import com.codingbad.roombooking.ui.fragment.BookRoomFragment;
+import com.codingbad.roombooking.ui.fragment.BookRoomFromFragment;
 import com.codingbad.roombooking.ui.fragment.ErrorFragment;
 import com.codingbad.roombooking.ui.fragment.RoomDetailsFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
@@ -26,11 +29,12 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     private static final String ERROR_FRAGMENT_TAG = "error_fragment";
     private static final String LAST_RESPONSE = "last_response";
     private static final String ROOM_DETAILS_FRAGMENT_TAG = "room_details_fragment";
+    private static final String ROOM_BOOKING_FROM_FRAGMENT_TAG = "room_booking_from";
 
     private FragmentManager mFragmentManager;
     private List<Room> mLastResponse = new ArrayList<>();
     private Room mSelectedRoom;
-
+    private Date mSelectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +95,8 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     }
 
     @Override
-    public void showDetails(Room room) {
+    public void showDetails(Room room, Date selectedDate) {
+        mSelectedDate = selectedDate;
         mSelectedRoom = room;
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction startFragment = mFragmentManager.beginTransaction();
@@ -120,7 +125,23 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     }
 
     @Override
-    public void bookRoom() {
+    public Timeline getTimeline() {
+        return mSelectedRoom.getTimeline();
+    }
+
+    @Override
+    public void startBookingRoom() {
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction startFragment = mFragmentManager.beginTransaction();
+        BookRoomFromFragment bookRoomFromFragment = new BookRoomFromFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(BookRoomFromFragment.DATE, mSelectedDate);
+        startFragment.addToBackStack(ROOM_BOOKING_FROM_FRAGMENT_TAG);
+        startFragment.replace(R.id.fragment, bookRoomFromFragment, ROOM_BOOKING_FROM_FRAGMENT_TAG);
+        startFragment.commit();
+    }
+
+    public void addParticipants() {
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction startFragment = mFragmentManager.beginTransaction();
         BookRoomFragment bookRoomFragment = new BookRoomFragment();

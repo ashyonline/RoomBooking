@@ -91,7 +91,7 @@ public class BookRoomFragment  extends AbstractFragment<BookRoomFragment.Callbac
     }
 
     private void setupRoom() {
-        mTimeline = new Timeline(mSelectedRoom.getAvailabilityStart(), mSelectedRoom.getAvailabilityEnd(), mSelectedRoom, mSelectedRoom.getAvailabilityStep());
+        mTimeline = callbacks.getTimeline();
         mRoomTimeline.fill(mTimeline, true);
         mRoomTimeline.setOnClickListener(this);
     }
@@ -172,5 +172,7 @@ public class BookRoomFragment  extends AbstractFragment<BookRoomFragment.Callbac
 
     public interface Callbacks {
         Room getSelectedRoom();
+
+        Timeline getTimeline();
     }
 }
