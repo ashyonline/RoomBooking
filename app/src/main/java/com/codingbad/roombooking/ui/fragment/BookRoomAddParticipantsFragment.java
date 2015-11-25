@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,9 +17,17 @@ import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Booking;
 import com.codingbad.roombooking.model.Participant;
 import com.codingbad.roombooking.model.Room;
+import com.codingbad.roombooking.model.SendPassError;
+import com.codingbad.roombooking.otto.OttoBus;
+import com.codingbad.roombooking.task.AbstractTask;
+import com.codingbad.roombooking.task.GetRoomsTask;
+import com.codingbad.roombooking.task.SendPassTask;
 import com.codingbad.roombooking.ui.adapter.ParticipantAdapter;
+import com.codingbad.roombooking.ui.view.LoadingIndicatorView;
 import com.codingbad.roombooking.validator.EditTextValidator;
 import com.codingbad.roombooking.validator.EmailValidator;
+import com.google.inject.Inject;
+import com.squareup.otto.Subscribe;
 
 import roboguice.inject.InjectView;
 
@@ -42,8 +51,18 @@ public class BookRoomAddParticipantsFragment extends AbstractFragment<BookRoomAd
     @InjectView(R.id.fragment_room_booking_add_participants_participants)
     private ListView mParticipants;
 
+    @InjectView(R.id.fragment_room_booking_add_participants)
+    private LinearLayout mViewGroup;
+
     private ParticipantAdapter mAdapter;
     private Booking mBookingModel;
+
+    @Inject
+    OttoBus ottoBus;
+
+    @Inject
+    private LoadingIndicatorView mLoadingIndicator;
+
 
     public BookRoomAddParticipantsFragment() {
     }
@@ -70,6 +89,30 @@ public class BookRoomAddParticipantsFragment extends AbstractFragment<BookRoomAd
         mParticipants.setAdapter(mAdapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupLoadingIndicator();
+    }
+
+    private void setupLoadingIndicator() {
+        mLoadingIndicator.attach(mViewGroup);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ottoBus.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ottoBus.unregister(this);
+        mLoadingIndicator.dismiss();
+        mViewGroup.removeView(mLoadingIndicator);
+    }
+
     private void setupRoom() {
     }
 
@@ -94,7 +137,8 @@ public class BookRoomAddParticipantsFragment extends AbstractFragment<BookRoomAd
     private void bookRoom() {
         // book room!
         if (!mBookingModel.getParticipants().isEmpty()) {
-            callbacks.bookRoom();
+            mLoadingIndicator.show();
+            new SendPassTask(this.getContext(), mBookingModel).execute();
         } else {
             Toast.makeText(getContext(), getString(R.string.should_add_one_participant), Toast.LENGTH_LONG).show();
         }
@@ -142,11 +186,43 @@ public class BookRoomAddParticipantsFragment extends AbstractFragment<BookRoomAd
         mAdapter.notifyDataSetChanged();
     }
 
-    public interface Callbacks {
-        Room getSelectedRoom();
+    /**
+     * Otto events
+     */
+    @Subscribe
+    public void onPassesSuccessfullyRetrieved(SendPassTask.Event event) {
 
+        mLoadingIndicator.dismiss();
+        callbacks.onPassesSuccessfullyRetrieved(event);
+    }
+
+    @Subscribe
+    public void onRoomsError(AbstractTask.ErrorEvent error) {
+        mLoadingIndicator.dismiss();
+        callbacks.onRoomsError(error);
+    }
+
+    @Subscribe
+    public void onRetrofitError(AbstractTask.RetrofitErrorEvent error) {
+        mLoadingIndicator.dismiss();
+        callbacks.onRetrofitError(error);
+    }
+
+    @Subscribe
+    public void onSendPassError(SendPassError error) {
+        mLoadingIndicator.dismiss();
+        callbacks.onSendPassError(error);
+    }
+
+    public interface Callbacks {
         Booking getBookingModel();
 
-        void bookRoom();
+        void onPassesSuccessfullyRetrieved(SendPassTask.Event event);
+
+        void onRoomsError(AbstractTask.ErrorEvent error);
+
+        void onRetrofitError(AbstractTask.RetrofitErrorEvent error);
+
+        void onSendPassError(SendPassError error);
     }
 }

@@ -27,4 +27,5 @@
     <string name="booking_room_from_date">Please, choose the time you want to book %1$s</string>
     <string name="booking_room_to_date">Please, choose until what time you want to book %1$s</string>
     <string name="should_add_one_participant">Please, add at least one participant</string>
+    <string name="success">All passes have been successfully sent!</string>
 </resources>

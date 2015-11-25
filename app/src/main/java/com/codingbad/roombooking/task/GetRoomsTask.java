@@ -23,9 +23,7 @@ import roboguice.util.RoboAsyncTask;
 /**
  * Created by ayi on 11/18/15.
  */
-public class GetRoomsTask extends RoboAsyncTask<Response> {
-    @Inject
-    protected OttoBus mOttoBus;
+public class GetRoomsTask extends AbstractTask {
     @Inject
     private RoomClient mRoomClient;
     private String mDate;
@@ -65,22 +63,6 @@ public class GetRoomsTask extends RoboAsyncTask<Response> {
         return null;
     }
 
-    @Override
-    protected void onException(Exception e) throws RuntimeException {
-        if (e instanceof RetrofitError) {
-            RetrofitError e1 = (RetrofitError) e;
-            if (e1.getResponse() != null) {
-                RoomsErrorModel roomsError = (RoomsErrorModel) e1.getBodyAs(RoomsErrorModel.class);
-                mOttoBus.post(new ErrorEvent(roomsError));
-            } else {
-                super.onException(e);
-                mOttoBus.post(new RetrofitErrorEvent(e1.getMessage()));
-                e.printStackTrace();
-            }
-        } else {
-            super.onException(e);
-        }
-    }
 
     /*
          * Otto Events
@@ -94,30 +76,6 @@ public class GetRoomsTask extends RoboAsyncTask<Response> {
 
         public List<Room> getResult() {
             return mResult;
-        }
-    }
-
-    public class ErrorEvent {
-        private final RoomsErrorModel mRoomsError;
-
-        public ErrorEvent(RoomsErrorModel roomsError) {
-            this.mRoomsError = roomsError;
-        }
-
-        public RoomsErrorModel getRoomsError() {
-            return mRoomsError;
-        }
-    }
-
-    public class RetrofitErrorEvent {
-        private final String mMessage;
-
-        public RetrofitErrorEvent(String message) {
-            mMessage = message;
-        }
-
-        public String getMessage() {
-            return mMessage;
         }
     }
 }

@@ -128,7 +128,6 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
         mLoadingIndicator.attach(mViewGroup);
     }
 
-
     @Override
     public void onStart() {
         super.onStart();

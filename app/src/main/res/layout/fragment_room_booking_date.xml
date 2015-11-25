@@ -13,7 +13,7 @@
         android:id="@+id/fragment_room_booking_date_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/subtitle_style"/>
+        style="@style/description_style"/>
 
     <LinearLayout
         android:layout_width="match_parent"
