@@ -108,4 +108,30 @@ public class Availability {
         }
         return available;
     }
+
+    public List<String> getAvailableMinutesFrom(String hour, String minute) {
+        List<String> available = new ArrayList<>();
+        int from;
+
+        if (Integer.valueOf(this.from.split(":")[0]) < Integer.valueOf(hour)) {
+            from = 0;
+        } else {
+            from = Integer.valueOf(this.from.split(":")[1]);
+        }
+
+        int to;
+        if (Integer.valueOf(this.to.split(":")[0]) > Integer.valueOf(hour)) {
+            to = 59;
+        } else {
+            to = Integer.valueOf(this.to.split(":")[1]);
+        }
+
+        int min = Integer.valueOf(minute);
+        for (int i = from ; i <= to; i+=15) {
+            if (i > min) {
+                available.add(toString(i));
+            }
+        }
+        return available;
+    }
 }

@@ -10,13 +10,13 @@ import java.util.Date;
  */
 public class BookingData {
     @SerializedName("date")
-    private DateModel mDate;
+    private String mDate;
 
     @SerializedName("time_start")
-    private DateModel mTimeStart;
+    private String mTimeStart;
 
     @SerializedName("time_end")
-    private DateModel mTimeEnd;
+    private String mTimeEnd;
 
     @SerializedName("title")
     private String mTitle;
@@ -28,9 +28,9 @@ public class BookingData {
     private String mRoom;
 
     public BookingData(Date date, Date startDate, Date endDate, String title, String description, String room) {
-        mDate = new DateModel(getDate(date));
-        mTimeStart = new DateModel(getDate(startDate));
-        mTimeEnd = new DateModel(getDate(endDate));
+        mDate = getDate(date);
+        mTimeStart = getDate(startDate);
+        mTimeEnd = getDate(endDate);
         mTitle = title;
         mDescription = description;
         mRoom = room;

@@ -27,7 +27,6 @@ import roboguice.inject.InjectView;
  */
 public class BookRoomDateFragment extends AbstractFragment<BookRoomDateFragment.Callbacks> implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     public static final String DATE = "date";
-    private static final String ROOM = "room";
     public static final String START = "start_date";
     private Booking mBookingModel;
 
@@ -73,13 +72,18 @@ public class BookRoomDateFragment extends AbstractFragment<BookRoomDateFragment.
         if (mIsStart) {
             availableHours = getAvailableHours();
             availableMinutes = getAvailableMinutes(availableHours.get(0));
-
-
         } else {
             Date start = mBookingModel.getStartDate();
-            int hour = DateUtils.get(Calendar.HOUR, start);
-            availableHours = getAvailableHoursFrom(toString(hour));
-            availableMinutes = getAvailableMinutes(availableHours.get(0));
+            int hour = DateUtils.get(Calendar.HOUR_OF_DAY, start);
+            int minutes = DateUtils.get(Calendar.MINUTE, start);
+            String hours = toString(hour);
+            availableHours = getAvailableHoursFrom(hours, toString(minutes));
+            String firstHour = availableHours.get(0);
+            if (firstHour.equals(hours)) {
+                availableMinutes = getAvailableMinutesFrom(firstHour, toString(minutes));
+            } else {
+                availableMinutes = getAvailableMinutesFrom(firstHour, toString(-1));
+            }
         }
 
         ArrayAdapter<String> hourAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, availableHours);
@@ -90,17 +94,20 @@ public class BookRoomDateFragment extends AbstractFragment<BookRoomDateFragment.
     }
 
     private String toString(int i) {
-        if (i < 10) {
+        if (i < 10 && i >= 0) {
             return "0" + i;
         }
         return String.valueOf(i);
     }
 
-    private List<String> getAvailableHoursFrom(String hour) {
+    private List<String> getAvailableHoursFrom(String hour, String minutes) {
         List<String> availableHours = new ArrayList<>();
         for (Availability av : mBookingModel.getRoomAvailability()) {
             if (av.getAvailableHours().contains(hour)) {
                 availableHours.addAll(av.getAvailableHoursFrom(hour));
+                if (availableHours.get(0).equals(hour) && minutes.equals("45")) {
+                    availableHours.remove(0);
+                }
             }
         }
 
@@ -126,6 +133,17 @@ public class BookRoomDateFragment extends AbstractFragment<BookRoomDateFragment.
         return availableMinutes;
     }
 
+    private List<String> getAvailableMinutesFrom(String hour, String minutes) {
+        List<String> availableMinutes = new ArrayList<>();
+        for (Availability av : mBookingModel.getRoomAvailability()) {
+            if (av.getAvailableHours().contains(hour)) {
+                availableMinutes.addAll(av.getAvailableMinutesFrom(hour, minutes));
+            }
+        }
+
+        return availableMinutes;
+    }
+
     private void setupTitle() {
         if (mIsStart) {
             mTitle.setText(getString(R.string.booking_room_from_date, mBookingModel.getRoomName(getContext())));
@@ -145,7 +163,24 @@ public class BookRoomDateFragment extends AbstractFragment<BookRoomDateFragment.
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        List<String> availableMinutes = getAvailableMinutes((String) mHour.getSelectedItem());
+        List<String> availableMinutes;
+        String firstHour = (String) mHour.getSelectedItem();
+        if (mIsStart) {
+            availableMinutes = getAvailableMinutes(firstHour);
+        } else {
+            Date start = mBookingModel.getStartDate();
+            int minutes = DateUtils.get(Calendar.MINUTE, start);
+            int hour = DateUtils.get(Calendar.HOUR_OF_DAY, start);
+            String hours = toString(hour);
+
+            if (firstHour.equals(hours)) {
+                availableMinutes = getAvailableMinutesFrom(firstHour, toString(minutes));
+            } else {
+                availableMinutes = getAvailableMinutesFrom(firstHour, toString(-1));
+            }
+
+        }
+
         ArrayAdapter<String> minutesAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, availableMinutes);
         mMinutes.setAdapter(minutesAdapter);
     }
@@ -153,6 +188,10 @@ public class BookRoomDateFragment extends AbstractFragment<BookRoomDateFragment.
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public boolean isStart() {
+        return mIsStart;
     }
 
     public interface Callbacks {

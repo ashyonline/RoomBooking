@@ -5,6 +5,7 @@ import android.content.Context;
 import com.codingbad.roombooking.model.Booking;
 import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.RoomsErrorModel;
+import com.codingbad.roombooking.model.SendPassError;
 import com.codingbad.roombooking.model.SendPassResult;
 import com.codingbad.roombooking.network.client.RoomClient;
 import com.codingbad.roombooking.otto.OttoBus;
@@ -25,10 +26,9 @@ import roboguice.util.RoboAsyncTask;
 /**
  * Created by ayelen on 11/24/15.
  */
-public class SendPassTask extends RoboAsyncTask<Response> {
+public class SendPassTask extends AbstractTask {
     private final Booking mBooking;
-    @Inject
-    protected OttoBus mOttoBus;
+
     @Inject
     private RoomClient mRoomClient;
 
@@ -58,30 +58,18 @@ public class SendPassTask extends RoboAsyncTask<Response> {
             Gson gson = new Gson();
             String body = StringUtils.convertToString(result.getBody().in());
             SendPassResult sendPassResult = gson.fromJson(body, SendPassResult.class);
+
+            if (!sendPassResult.isSuccess()) {
+                SendPassError sendPassError = gson.fromJson(body, SendPassError.class);
+                return sendPassError;
+            }
+
             return new Event(sendPassResult);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-//        }
 
         return null;
-    }
-
-    @Override
-    protected void onException(Exception e) throws RuntimeException {
-        if (e instanceof RetrofitError) {
-            RetrofitError e1 = (RetrofitError) e;
-            if (e1.getResponse() != null) {
-                RoomsErrorModel roomsError = (RoomsErrorModel) e1.getBodyAs(RoomsErrorModel.class);
-                mOttoBus.post(new ErrorEvent(roomsError));
-            } else {
-                super.onException(e);
-                mOttoBus.post(new RetrofitErrorEvent(e1.getMessage()));
-                e.printStackTrace();
-            }
-        } else {
-            super.onException(e);
-        }
     }
 
     /*
@@ -96,30 +84,6 @@ public class SendPassTask extends RoboAsyncTask<Response> {
 
         public SendPassResult getResult() {
             return mResult;
-        }
-    }
-
-    public class ErrorEvent {
-        private final RoomsErrorModel mRoomsError;
-
-        public ErrorEvent(RoomsErrorModel roomsError) {
-            this.mRoomsError = roomsError;
-        }
-
-        public RoomsErrorModel getRoomsError() {
-            return mRoomsError;
-        }
-    }
-
-    public class RetrofitErrorEvent {
-        private final String mMessage;
-
-        public RetrofitErrorEvent(String message) {
-            mMessage = message;
-        }
-
-        public String getMessage() {
-            return mMessage;
         }
     }
 }

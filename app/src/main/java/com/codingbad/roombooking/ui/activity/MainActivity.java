@@ -9,11 +9,15 @@ import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Booking;
 import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.RoomsErrorModel;
+import com.codingbad.roombooking.model.SendPassError;
+import com.codingbad.roombooking.task.AbstractTask;
 import com.codingbad.roombooking.task.GetRoomsTask;
+import com.codingbad.roombooking.task.SendPassTask;
 import com.codingbad.roombooking.ui.fragment.AvailableRoomsFragment;
 import com.codingbad.roombooking.ui.fragment.BookRoomAddParticipantsFragment;
 import com.codingbad.roombooking.ui.fragment.BookRoomDateFragment;
 import com.codingbad.roombooking.ui.fragment.ErrorFragment;
+import com.codingbad.roombooking.ui.fragment.PassesSuccessfullyRetrievedFragment;
 import com.codingbad.roombooking.ui.fragment.RoomDetailsFragment;
 
 import java.io.Serializable;
@@ -30,6 +34,7 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     private static final String LAST_RESPONSE = "last_response";
     private static final String ROOM_DETAILS_FRAGMENT_TAG = "room_details_fragment";
     private static final String ROOM_BOOKING_FROM_FRAGMENT_TAG = "room_booking_from";
+    private static final String PASSES_SUCCESSFULLY_RETRIEVED_FRAGMENT_TAG = "passes_successfully_retrieved_tag";
 
     private FragmentManager mFragmentManager;
     private List<Room> mLastResponse = new ArrayList<>();
@@ -85,14 +90,19 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     }
 
     @Override
-    public void onRoomsError(GetRoomsTask.ErrorEvent event) {
+    public void onRoomsError(AbstractTask.ErrorEvent event) {
         RoomsErrorModel error = event.getRoomsError();
         showErrorFragment(error.getCode(), error.getDescription());
     }
 
     @Override
-    public void onRetrofitError(GetRoomsTask.RetrofitErrorEvent error) {
+    public void onRetrofitError(AbstractTask.RetrofitErrorEvent error) {
         showErrorFragment(getString(R.string.unknown_error), error.getMessage());
+    }
+
+    @Override
+    public void onSendPassError(SendPassError error) {
+        showErrorFragment(String.valueOf(error.getCode()), error.getMessage());
     }
 
     @Override
@@ -131,8 +141,13 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     }
 
     @Override
-    public void bookRoom() {
-        // send request!
+    public void onPassesSuccessfullyRetrieved(SendPassTask.Event event) {
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction startFragment = mFragmentManager.beginTransaction();
+        PassesSuccessfullyRetrievedFragment passesSuccessfullyRetrievedFragment = new PassesSuccessfullyRetrievedFragment();
+        startFragment.addToBackStack(PASSES_SUCCESSFULLY_RETRIEVED_FRAGMENT_TAG);
+        startFragment.replace(R.id.fragment, passesSuccessfullyRetrievedFragment, PASSES_SUCCESSFULLY_RETRIEVED_FRAGMENT_TAG);
+        startFragment.commit();
     }
 
     @Override
@@ -150,6 +165,19 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
     public void startBookingRoom() {
         showBookRoomDate(true);
         mBookingModel = new Booking(mSelectedRoom);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Fragment currentFragment = mFragmentManager.findFragmentById(R.id.fragment);
+        if (currentFragment instanceof BookRoomDateFragment) {
+            if (((BookRoomDateFragment) currentFragment).isStart()) {
+                mBookingModel.setStart(null);
+            } else {
+                mBookingModel.setEnd(null);
+            }
+        }
     }
 
     private void showBookRoomDate(boolean start) {

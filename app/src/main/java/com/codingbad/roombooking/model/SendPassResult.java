@@ -10,4 +10,8 @@ import java.io.Serializable;
 public class SendPassResult implements Serializable {
     @SerializedName("success")
     private boolean mSuccess;
+
+    public boolean isSuccess() {
+        return mSuccess;
+    }
 }
