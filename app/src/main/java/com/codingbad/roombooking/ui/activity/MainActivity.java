@@ -11,9 +11,9 @@ import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.RoomsErrorModel;
 import com.codingbad.roombooking.model.SendPassError;
 import com.codingbad.roombooking.task.AbstractTask;
-import com.codingbad.roombooking.task.GetRoomsTask;
 import com.codingbad.roombooking.task.SendPassTask;
 import com.codingbad.roombooking.ui.fragment.AvailableRoomsFragment;
+import com.codingbad.roombooking.ui.fragment.BookRoomCreateEventFragment;
 import com.codingbad.roombooking.ui.fragment.BookRoomAddParticipantsFragment;
 import com.codingbad.roombooking.ui.fragment.BookRoomDateFragment;
 import com.codingbad.roombooking.ui.fragment.ErrorFragment;
@@ -27,14 +27,22 @@ import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
 
-public class MainActivity extends RoboActionBarActivity implements AvailableRoomsFragment.Callbacks, RoomDetailsFragment.Callbacks, BookRoomAddParticipantsFragment.Callbacks, BookRoomDateFragment.Callbacks {
+public class MainActivity extends RoboActionBarActivity implements
+        AvailableRoomsFragment.Callbacks,
+        RoomDetailsFragment.Callbacks,
+        BookRoomAddParticipantsFragment.Callbacks,
+        BookRoomDateFragment.Callbacks,
+        BookRoomCreateEventFragment.Callbacks,
+        PassesSuccessfullyRetrievedFragment.Callbacks {
 
     private static final String AVAILABLE_ROOMS_FRAGMENT_TAG = "available_rooms_fragment";
     private static final String ERROR_FRAGMENT_TAG = "error_fragment";
     private static final String LAST_RESPONSE = "last_response";
     private static final String ROOM_DETAILS_FRAGMENT_TAG = "room_details_fragment";
-    private static final String ROOM_BOOKING_FROM_FRAGMENT_TAG = "room_booking_from";
+    private static final String ROOM_BOOKING_DATE_FRAGMENT_TAG = "room_booking_date_tag";
+    private static final String ROOM_BOOKING_EVENT_FRAGMENT_TAG = "room_booking_event_tag";
     private static final String PASSES_SUCCESSFULLY_RETRIEVED_FRAGMENT_TAG = "passes_successfully_retrieved_tag";
+    private static final String ROOM_BOOKING_PARTICIPANTS_FRAGMENT_TAG = "room_booking_participants_tab";
 
     private FragmentManager mFragmentManager;
     private List<Room> mLastResponse = new ArrayList<>();
@@ -137,6 +145,10 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
 
     @Override
     public Booking getBookingModel() {
+        if (mBookingModel == null) {
+            mBookingModel = new Booking(mSelectedRoom);
+        }
+
         return mBookingModel;
     }
 
@@ -157,8 +169,18 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
             showBookRoomDate(false);
         } else {
             mBookingModel.setEnd(date);
-            addParticipants();
+            createEvent();
+            // addParticipants();
         }
+    }
+
+    private void createEvent() {
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction startFragment = mFragmentManager.beginTransaction();
+        BookRoomCreateEventFragment bookRooCreateEventFragment = new BookRoomCreateEventFragment();
+        startFragment.addToBackStack(ROOM_BOOKING_EVENT_FRAGMENT_TAG);
+        startFragment.replace(R.id.fragment, bookRooCreateEventFragment, ROOM_BOOKING_EVENT_FRAGMENT_TAG);
+        startFragment.commit();
     }
 
     @Override
@@ -188,8 +210,8 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
         bundle.putSerializable(BookRoomDateFragment.DATE, mSelectedDate);
         bundle.putBoolean(BookRoomDateFragment.START, start);
         bookRoomFromFragment.setArguments(bundle);
-        startFragment.addToBackStack(ROOM_BOOKING_FROM_FRAGMENT_TAG);
-        startFragment.replace(R.id.fragment, bookRoomFromFragment, ROOM_BOOKING_FROM_FRAGMENT_TAG);
+        startFragment.addToBackStack(ROOM_BOOKING_DATE_FRAGMENT_TAG);
+        startFragment.replace(R.id.fragment, bookRoomFromFragment, ROOM_BOOKING_DATE_FRAGMENT_TAG);
         startFragment.commit();
     }
 
@@ -197,8 +219,25 @@ public class MainActivity extends RoboActionBarActivity implements AvailableRoom
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction startFragment = mFragmentManager.beginTransaction();
         BookRoomAddParticipantsFragment bookRoomFragment = new BookRoomAddParticipantsFragment();
-        startFragment.addToBackStack(ROOM_DETAILS_FRAGMENT_TAG);
-        startFragment.replace(R.id.fragment, bookRoomFragment, ROOM_DETAILS_FRAGMENT_TAG);
+        startFragment.addToBackStack(ROOM_BOOKING_PARTICIPANTS_FRAGMENT_TAG);
+        startFragment.replace(R.id.fragment, bookRoomFragment, ROOM_BOOKING_PARTICIPANTS_FRAGMENT_TAG);
+        startFragment.commit();
+    }
+
+    @Override
+    public void eventCreated(String title, String description) {
+        mBookingModel.setEventTitle(title);
+        mBookingModel.setEventDescription(description);
+        addParticipants();
+
+    }
+
+    @Override
+    public void goBackToBookRoomList() {
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction startFragment = mFragmentManager.beginTransaction();
+        AvailableRoomsFragment availableRoomsFragment = new AvailableRoomsFragment();
+        startFragment.replace(R.id.fragment, availableRoomsFragment, AVAILABLE_ROOMS_FRAGMENT_TAG);
         startFragment.commit();
     }
 }

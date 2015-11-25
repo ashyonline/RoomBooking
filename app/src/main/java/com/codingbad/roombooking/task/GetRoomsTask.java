@@ -58,7 +58,6 @@ public class GetRoomsTask extends AbstractTask {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-//        }
 
         return null;
     }

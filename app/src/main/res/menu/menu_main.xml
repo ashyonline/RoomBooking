@@ -13,7 +13,7 @@
         android:actionLayout="@layout/checkbox_action"
         android:checkable="true"
         android:checked="false"
-        android:title="@string/check"
+        android:title="@string/next_hour"
         app:actionViewClass="android.widget.CheckBox"
-        app:showAsAction="always" />
+        app:showAsAction="always|withText" />
 </menu>

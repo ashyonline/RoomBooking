@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Room;
@@ -179,6 +180,7 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
                         mCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
             case R.id.action_checkbox:
+                Toast.makeText(this.getContext(), getString(R.string.filter_tooltip), Toast.LENGTH_LONG).show();
                 filterResults(mLastQuery, mNextHourFilter.isChecked());
                 break;
         }

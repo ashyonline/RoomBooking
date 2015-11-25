@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/card_margin">
+    <TextView
+        android:id="@+id/fragment_room_booking_create_event_title"
+        style="@style/title_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_event" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/field_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/event_title" />
+
+            <TextView
+                style="@style/field_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/event_description" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/fragment_room_booking_create_event_title_field"
+                style="@style/input_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/event_title_hint"
+                android:inputType="textCapSentences" />
+
+            <EditText
+                android:id="@+id/fragment_room_booking_create_event_description_field"
+                style="@style/input_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/event_description_hint"
+                android:layout_toEndOf="@+id/fragment_room_booking_add_participants_email" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <Button
+        android:id="@+id/fragment_room_booking_create_event_next"
+        style="@style/button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next" />
+
+</LinearLayout>

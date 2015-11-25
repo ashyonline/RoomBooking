@@ -14,10 +14,8 @@ public class Booking {
     private List<Participant> mParticipantsNames = new ArrayList<>();
     private Date mStartDate;
     private Date mEndDate;
-    // TODO: ask user for title
-    private String mTitle = "Event Title";
-    // TODO: ask user for description
-    private String mDescription = "Event Description";
+    private String mTitle;
+    private String mDescription;
 
     public Booking(Room room) {
         mRoom = room;
@@ -69,5 +67,13 @@ public class Booking {
 
     public String getDescription() {
         return mDescription;
+    }
+
+    public void setEventTitle(String title) {
+        mTitle = title;
+    }
+
+    public void setEventDescription(String description) {
+        mDescription = description;
     }
 }

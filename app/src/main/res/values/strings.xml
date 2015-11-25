@@ -5,7 +5,7 @@
     <string name="and">\u0020and\u0020</string>
     <string name="search">Search</string>
     <string name="search_hint">Enter room name or equipment</string>
-    <string name="check">Next Hour</string>
+    <string name="next_hour">Next Hour</string>
     <string name="unknown_error">Unknown Error</string>
     <string name="description">Room Description</string>
     <string name="hotel_availability">Booking Schedule</string>
@@ -28,4 +28,11 @@
     <string name="booking_room_to_date">Please, choose until what time you want to book %1$s</string>
     <string name="should_add_one_participant">Please, add at least one participant</string>
     <string name="success">All passes have been successfully sent!</string>
+    <string name="event_title">Title</string>
+    <string name="event_description">Description</string>
+    <string name="create_event">Event Creation</string>
+    <string name="event_title_hint">Party</string>
+    <string name="event_description_hint">Have some margaritas with girlfriends</string>
+    <string name="back_to_room_list">Go back to room list</string>
+    <string name="filter_tooltip">Filtering rooms available for the next hour</string>
 </resources>

@@ -6,4 +6,5 @@
     android:checkable="true"
     android:checked="false"
     android:paddingStart="@dimen/checkbox_padding"
+    android:text="@string/next_hour"
     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Menu" />
