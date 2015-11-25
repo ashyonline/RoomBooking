@@ -1,6 +1,5 @@
 package com.codingbad.roombooking.network.client;
 
-import com.codingbad.roombooking.model.Booking;
 import com.codingbad.roombooking.model.BookingModel;
 import com.codingbad.roombooking.model.DateModel;
 

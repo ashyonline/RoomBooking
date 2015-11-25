@@ -14,7 +14,7 @@ import roboguice.util.RoboAsyncTask;
 /**
  * Created by ayi on 11/24/15.
  */
-public abstract class AbstractTask  extends RoboAsyncTask<Response> {
+public abstract class AbstractTask extends RoboAsyncTask<Response> {
 
     @Inject
     protected OttoBus mOttoBus;

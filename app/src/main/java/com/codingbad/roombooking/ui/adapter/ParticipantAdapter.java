@@ -21,30 +21,6 @@ public class ParticipantAdapter extends ArrayAdapter<Participant> {
     private final ParticipantItemEventListener mParticipantItemEventListener;
     private ViewHolder mViewHolder;
 
-    private static class ViewHolder implements View.OnClickListener {
-        private final ParticipantItemEventListener mParticipantItemEventListener;
-        private TextView mParticipantName;
-        private ImageView mParticipantRemove;
-        private Participant mParticipant;
-
-        public ViewHolder(View convertView, ParticipantItemEventListener listener) {
-            mParticipantName = (TextView) convertView.findViewById(R.id.participant_item_name);
-            mParticipantRemove = (ImageView) convertView.findViewById(R.id.participant_item_remove);
-            mParticipantRemove.setOnClickListener(this);
-            mParticipantItemEventListener = listener;
-        }
-
-        public void setParticipant(Participant participant) {
-            mParticipant = participant;
-            mParticipantName.setText(participant.getName());
-        }
-
-        @Override
-        public void onClick(View v) {
-            mParticipantItemEventListener.removeItem(mParticipant);
-        }
-    }
-
     public ParticipantAdapter(Context context, int resource, List<Participant> participants, ParticipantItemEventListener listener) {
         super(context, resource, participants);
         mParticipantItemEventListener = listener;
@@ -71,5 +47,29 @@ public class ParticipantAdapter extends ArrayAdapter<Participant> {
 
     public interface ParticipantItemEventListener {
         void removeItem(Participant participant);
+    }
+
+    private static class ViewHolder implements View.OnClickListener {
+        private final ParticipantItemEventListener mParticipantItemEventListener;
+        private TextView mParticipantName;
+        private ImageView mParticipantRemove;
+        private Participant mParticipant;
+
+        public ViewHolder(View convertView, ParticipantItemEventListener listener) {
+            mParticipantName = (TextView) convertView.findViewById(R.id.participant_item_name);
+            mParticipantRemove = (ImageView) convertView.findViewById(R.id.participant_item_remove);
+            mParticipantRemove.setOnClickListener(this);
+            mParticipantItemEventListener = listener;
+        }
+
+        public void setParticipant(Participant participant) {
+            mParticipant = participant;
+            mParticipantName.setText(participant.getName());
+        }
+
+        @Override
+        public void onClick(View v) {
+            mParticipantItemEventListener.removeItem(mParticipant);
+        }
     }
 }

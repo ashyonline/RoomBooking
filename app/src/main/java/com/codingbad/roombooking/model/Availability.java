@@ -3,7 +3,6 @@ package com.codingbad.roombooking.model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -57,9 +56,9 @@ public class Availability {
         int to = Integer.valueOf(this.to.split(":")[0]);
 
         if (Integer.valueOf(this.to.split(":")[1]) > 0) {
-            to = to+1;
+            to = to + 1;
         }
-        for (int i = from ; i < to; i++) {
+        for (int i = from; i < to; i++) {
             available.add(toString(i));
         }
         return available;
@@ -89,7 +88,7 @@ public class Availability {
             to = Integer.valueOf(this.to.split(":")[1]);
         }
 
-        for (int i = from ; i < to; i+=15) {
+        for (int i = from; i < to; i += 15) {
             available.add(toString(i));
         }
         return available;
@@ -101,9 +100,9 @@ public class Availability {
         int to = Integer.valueOf(this.to.split(":")[0]);
 
         if (Integer.valueOf(this.to.split(":")[1]) > 0) {
-            to = to+1;
+            to = to + 1;
         }
-        for (int i = from ; i < to; i++) {
+        for (int i = from; i < to; i++) {
             available.add(toString(i));
         }
         return available;
@@ -127,7 +126,7 @@ public class Availability {
         }
 
         int min = Integer.valueOf(minute);
-        for (int i = from ; i <= to; i+=15) {
+        for (int i = from; i <= to; i += 15) {
             if (i > min) {
                 available.add(toString(i));
             }

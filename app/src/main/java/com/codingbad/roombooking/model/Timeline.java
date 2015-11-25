@@ -2,9 +2,9 @@ package com.codingbad.roombooking.model;
 
 import com.codingbad.roombooking.utils.DateUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ayelen on 11/20/15.
@@ -26,10 +26,9 @@ public class Timeline {
         long beginning = mFromTime.getTime();
         for (int i = 0; i < totalSteps; i++) {
             mPeriods.add(new Period(DateUtils.getDate(beginning), DateUtils.getDate(beginning + step), mAvailability));
-            beginning = beginning+step;
+            beginning = beginning + step;
         }
     }
-
 
 
     public List<Period> getPeriods() {

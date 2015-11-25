@@ -3,9 +3,7 @@ package com.codingbad.roombooking.task;
 import android.content.Context;
 
 import com.codingbad.roombooking.model.Room;
-import com.codingbad.roombooking.model.RoomsErrorModel;
 import com.codingbad.roombooking.network.client.RoomClient;
-import com.codingbad.roombooking.otto.OttoBus;
 import com.codingbad.roombooking.utils.StringUtils;
 import com.google.gson.Gson;
 
@@ -15,10 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.converter.GsonConverter;
-import roboguice.util.RoboAsyncTask;
 
 /**
  * Created by ayi on 11/18/15.

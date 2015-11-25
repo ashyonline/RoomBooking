@@ -16,11 +16,9 @@ import android.widget.Toast;
 import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Booking;
 import com.codingbad.roombooking.model.Participant;
-import com.codingbad.roombooking.model.Room;
 import com.codingbad.roombooking.model.SendPassError;
 import com.codingbad.roombooking.otto.OttoBus;
 import com.codingbad.roombooking.task.AbstractTask;
-import com.codingbad.roombooking.task.GetRoomsTask;
 import com.codingbad.roombooking.task.SendPassTask;
 import com.codingbad.roombooking.ui.adapter.ParticipantAdapter;
 import com.codingbad.roombooking.ui.view.LoadingIndicatorView;
@@ -36,30 +34,22 @@ import roboguice.inject.InjectView;
  */
 public class BookRoomAddParticipantsFragment extends AbstractFragment<BookRoomAddParticipantsFragment.Callbacks> implements View.OnClickListener, ParticipantAdapter.ParticipantItemEventListener {
 
-    @InjectView(R.id.fragment_room_booking_add_participants_add)
-    private Button mAddParticipant;
-
-    @InjectView(R.id.fragment_room_booking_add_participants_name_field)
-    private EditText mParticipantName;
-
-    @InjectView(R.id.fragment_room_booking_add_participants_email_field)
-    private EditText mParticipantEmail;
-
-    @InjectView(R.id.fragment_room_booking_add_participants_phone_field)
-    private EditText mParticipantPhone;
-
-    @InjectView(R.id.fragment_room_booking_add_participants_participants)
-    private ListView mParticipants;
-
-    @InjectView(R.id.fragment_room_booking_add_participants)
-    private LinearLayout mViewGroup;
-
-    private ParticipantAdapter mAdapter;
-    private Booking mBookingModel;
-
     @Inject
     OttoBus ottoBus;
-
+    @InjectView(R.id.fragment_room_booking_add_participants_add)
+    private Button mAddParticipant;
+    @InjectView(R.id.fragment_room_booking_add_participants_name_field)
+    private EditText mParticipantName;
+    @InjectView(R.id.fragment_room_booking_add_participants_email_field)
+    private EditText mParticipantEmail;
+    @InjectView(R.id.fragment_room_booking_add_participants_phone_field)
+    private EditText mParticipantPhone;
+    @InjectView(R.id.fragment_room_booking_add_participants_participants)
+    private ListView mParticipants;
+    @InjectView(R.id.fragment_room_booking_add_participants)
+    private LinearLayout mViewGroup;
+    private ParticipantAdapter mAdapter;
+    private Booking mBookingModel;
     @Inject
     private LoadingIndicatorView mLoadingIndicator;
 

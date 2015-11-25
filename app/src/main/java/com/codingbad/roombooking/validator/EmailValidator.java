@@ -12,6 +12,10 @@ public class EmailValidator extends EditTextValidator {
         super(editText, errorMessage);
     }
 
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
     @Override
     public boolean validate() {
         if (!isValidEmail(mEditText.getText())) {
@@ -20,9 +24,5 @@ public class EmailValidator extends EditTextValidator {
         }
 
         return super.validate();
-    }
-
-    public final static boolean isValidEmail(CharSequence target) {
-        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

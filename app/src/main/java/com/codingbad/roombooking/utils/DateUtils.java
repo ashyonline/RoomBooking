@@ -18,7 +18,7 @@ public class DateUtils {
     public static Date getTime(String millis) {
 
         try {
-           return simpleDateFormat.parse(millis);
+            return simpleDateFormat.parse(millis);
         } catch (ParseException e) {
             e.printStackTrace();
         }

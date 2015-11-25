@@ -116,7 +116,7 @@ public class Room implements Serializable {
     }
 
     public int getAvailabilityStep() {
-        return 15*60*1000;
+        return 15 * 60 * 1000;
     }
 
     public String getLongDescription(Context context) {

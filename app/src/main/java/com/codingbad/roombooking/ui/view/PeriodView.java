@@ -1,8 +1,6 @@
 package com.codingbad.roombooking.ui.view;
 
 import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;

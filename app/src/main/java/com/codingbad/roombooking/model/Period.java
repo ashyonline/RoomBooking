@@ -2,10 +2,8 @@ package com.codingbad.roombooking.model;
 
 import com.codingbad.roombooking.utils.DateUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ayelen on 11/20/15.

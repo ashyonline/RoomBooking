@@ -113,6 +113,7 @@ public class BookRoomDateFragment extends AbstractFragment<BookRoomDateFragment.
 
         return availableHours;
     }
+
     private List<String> getAvailableHours() {
         List<String> availableHours = new ArrayList<>();
         for (Availability av : mBookingModel.getRoomAvailability()) {

@@ -52,6 +52,10 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
     private LoadingIndicatorView mLoadingIndicator;
 
     private Date mSelectedDate;
+    private SearchView mSearchView;
+    private List<Room> mRooms;
+    private CheckBox mNextHourFilter;
+    private String mLastQuery = "";
     DatePickerDialog.OnDateSetListener mDate = new DatePickerDialog.OnDateSetListener() {
 
         @Override
@@ -66,10 +70,6 @@ public class AvailableRoomsFragment extends AbstractFragment<AvailableRoomsFragm
             filterResults(mLastQuery, mNextHourFilter.isChecked());
         }
     };
-    private SearchView mSearchView;
-    private List<Room> mRooms;
-    private CheckBox mNextHourFilter;
-    private String mLastQuery = "";
 
     public AvailableRoomsFragment() {
     }

@@ -2,16 +2,12 @@ package com.codingbad.roombooking.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.codingbad.roombooking.R;
 import com.codingbad.roombooking.model.Period;
 import com.codingbad.roombooking.model.Timeline;
 import com.codingbad.roombooking.utils.ViewUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import roboguice.inject.InjectView;
 

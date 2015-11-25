@@ -62,10 +62,10 @@
 
         <Button
             android:id="@+id/fragment_room_details_book_button"
+            style="@style/button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/button_style"
-            android:text="@string/book"/>
+            android:text="@string/book" />
 
     </LinearLayout>
 </ScrollView>

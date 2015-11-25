@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/thin_margin"
-    android:layout_width="match_parent">
+    android:orientation="horizontal">
+
     <TextView
         android:id="@+id/participant_item_name"
+        style="@style/participant_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/participant_style"
-        android:layout_weight="9"/>
+        android:layout_weight="9" />
+
     <ImageView
         android:id="@+id/participant_item_remove"
         android:layout_width="32sp"
         android:layout_height="32sp"
         android:layout_gravity="center_vertical"
         android:padding="@dimen/simple_margin"
-        android:src="@drawable/ic_remove"/>
+        android:src="@drawable/ic_remove" />
 </LinearLayout>
